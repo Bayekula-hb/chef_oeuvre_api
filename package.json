@@ -16,9 +16,20 @@
     "husky-install": "husky install"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dot-env": "^0.0.1",
     "eslint": "^8.0.1",
     "eslint-config-prettier": "^8.3.0",
+    "express-validator": "^6.13.0",
     "husky": "^7.0.2",
-    "nodemon": "^2.0.13"
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.0",
+    "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.13",
+    "passport-jwt": "^4.0.0",
+    "randomstring": "^1.2.1",
+    "sequelize": "^6.7.0",
+    "server": "^1.0.36"
   }
 }
