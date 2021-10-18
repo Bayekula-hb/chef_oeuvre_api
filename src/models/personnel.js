@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UUIDV4
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class personnel extends Model {
@@ -11,10 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.personnel.hasMany(models.proprietaire)
     }
   };
   personnel.init({
-    id_personnel: DataTypes.STRING,
+    id_personnel: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     nom_personnel: DataTypes.STRING,
     postnom_personnel: DataTypes.STRING,
     prenom_personnel: DataTypes.STRING,
@@ -22,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     matricule_personnel: DataTypes.STRING
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'personnel',
   });
   return personnel;

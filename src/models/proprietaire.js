@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UUIDV4
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class proprietaire extends Model {
@@ -11,17 +11,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.proprietaire.belongsTo(models.province, {
+        foreignKey: {
+          allowNull: false,
+          name:"provinceId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
+      });
+      models.proprietaire.hasMany(models.parcelle)
     }
   };
   proprietaire.init({
-    id_proprietaire: DataTypes.STRING,
+    id_proprietaire: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     nom_proprietaire: DataTypes.STRING,
     postnom_proprietaire: DataTypes.STRING,
     prenom_proprietaire: DataTypes.STRING,
     date_naissance: DataTypes.DATE,
-    nationalite: DataTypes.STRING
+    nationalite: DataTypes.STRING,
+    personnelId: DataTypes.INTEGER,
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'proprietaire',
   });
   return proprietaire;

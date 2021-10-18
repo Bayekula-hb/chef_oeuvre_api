@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_quartier: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       nom_quartier: {
         type: Sequelize.STRING
@@ -20,6 +21,13 @@ module.exports = {
       superficie_quartier: {
         type: Sequelize.DOUBLE
       },
+      communeId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "communes",
+          key: "id",
+        },
+      },      
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

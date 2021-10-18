@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_personnel: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       nom_personnel: {
         type: Sequelize.STRING

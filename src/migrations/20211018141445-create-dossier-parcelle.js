@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_dossier_parcelle: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       acte_de_vente: {
         type: Sequelize.STRING
@@ -22,6 +23,13 @@ module.exports = {
       },
       acte_de_cession: {
         type: Sequelize.STRING
+      },
+      parcelleId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "parcelles",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

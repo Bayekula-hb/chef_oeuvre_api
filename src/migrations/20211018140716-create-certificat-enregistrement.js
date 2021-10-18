@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_certificat: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       numero_cadatre: {
         type: Sequelize.STRING
@@ -43,6 +44,13 @@ module.exports = {
       },
       croquis: {
         type: Sequelize.STRING
+      },
+      parcelleId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "parcelles",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

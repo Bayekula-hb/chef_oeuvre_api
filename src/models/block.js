@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UUIDV4
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class block extends Model {
@@ -14,12 +14,16 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   block.init({
-    id_block: DataTypes.STRING,
+    id_block: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     prevhash: DataTypes.STRING,
     hash: DataTypes.STRING,
     transactions: DataTypes.JSON
   }, {
     sequelize,
+    paranoid: true,
     modelName: 'block',
   });
   return block;

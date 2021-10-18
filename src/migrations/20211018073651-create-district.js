@@ -9,13 +9,21 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_district: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       nom_district: {
         type: Sequelize.STRING
       },
       superficie_district: {
         type: Sequelize.DOUBLE
+      },
+      provinceId: {
+        type: Sequelize.INTEGER,
+        references:{
+          model:"provinces",
+          key: "id",
+        }
       },
       createdAt: {
         allowNull: false,

@@ -9,11 +9,19 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_avenue: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       nom_avenue: {
         type: Sequelize.STRING
       },
+      quartierId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "quartiers",
+          key: "id",
+        },
+      },  
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model
+  Model, UUIDV4
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class certificat_enregistrement extends Model {
@@ -11,10 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      models.certificat_enregistrement.hasOne(models.parcelle, {
+        foreignKey: {
+          allowNull: false,
+          name: "parcelleId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+      });
     }
   };
   certificat_enregistrement.init({
-    id_certificat: DataTypes.STRING,
+    id_certificat: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     numero_cadatre: DataTypes.STRING,
     latitude: DataTypes.DOUBLE,
     altitude: DataTypes.DOUBLE,
@@ -25,10 +36,12 @@ module.exports = (sequelize, DataTypes) => {
     situation: DataTypes.TEXT,
     description: DataTypes.TEXT,
     superficie: DataTypes.DOUBLE,
-    croquis: DataTypes.STRING
+    croquis: DataTypes.STRING,
+    parcelleId: DataTypes.INTEGER,
   }, {
     sequelize,
-    modelName: 'certificat_enregistrement',
+    paranoid: true,
+    modelName: "certificat_enregistrement",
   });
   return certificat_enregistrement;
 };

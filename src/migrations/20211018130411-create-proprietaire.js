@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_proprietaire: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       nom_proprietaire: {
         type: Sequelize.STRING
@@ -25,6 +26,13 @@ module.exports = {
       },
       nationalite: {
         type: Sequelize.STRING
+      },
+      personnelId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "personnels",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
