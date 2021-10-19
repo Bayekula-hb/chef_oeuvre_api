@@ -19,6 +19,17 @@ module.exports = {
           key: "id",
         },
       },
+      avenueId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: "avenues",
+          key: "id",
+        },
+      },
+      numero : {
+        allowNull : false,
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

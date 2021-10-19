@@ -29,6 +29,8 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
     },
     proprietaireId: DataTypes.INTEGER,
+    avenueId: DataTypes.INTEGER,
+    numero: DataTypes.STRING,
   }, {
     sequelize,
     paranoid: true,
