@@ -1,31 +1,31 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('proprietaires', {
+    await queryInterface.createTable("proprietaires", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       id_proprietaire: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
       nom_proprietaire: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       postnom_proprietaire: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       prenom_proprietaire: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       date_naissance: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       nationalite: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       personnelId: {
         type: Sequelize.INTEGER,
@@ -34,17 +34,21 @@ module.exports = {
           key: "id",
         },
       },
+      version: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+      },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('proprietaires');
-  }
+    await queryInterface.dropTable("proprietaires");
+  },
 };
