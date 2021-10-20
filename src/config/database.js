@@ -3,7 +3,6 @@ const {
   DB_USER,
   DB_PASS,
   DB_HOST,
-  DB_CONNECTION_TIMEOUT,
 } = require("./index");
 module.exports = {
   development: {

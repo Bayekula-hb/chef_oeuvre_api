@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     numero: DataTypes.STRING
   }, {
     sequelize,
+    paranoid:true,
     modelName: 'historique_parcelle',
   });
   return historique_parcelle;
