@@ -50,7 +50,6 @@ const updateProvince = async (req, res) => {
       },
     }
   );
-  console.log("savedProvince ", savedProvince);
   if (savedProvince === true) {
     res.status(200).json({ message: "update successfully completed" });
   } else {

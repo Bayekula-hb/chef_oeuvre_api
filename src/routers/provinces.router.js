@@ -7,11 +7,11 @@ const {
   updateProvince,
 } = require("../controllers/provinces.controllers");
 const { validatedGetOneProvince } = require("../middlewares/province/validatorGetProvince.middleware");
-const router = express.Router();
+const provinceRouter = express.Router();
 
-router.get("/",validatedGetOneProvince, getOneProvince)
-router.get("/All", getAllProvince);
-router.post("/", validatedProvince, addProvince);
-router.put("/",validatedGetOneProvince,validatedProvince,updateProvince);
+provinceRouter.get("/",validatedGetOneProvince, getOneProvince)
+provinceRouter.get("/All", getAllProvince);
+provinceRouter.post("/", validatedProvince, addProvince);
+provinceRouter.put("/",validatedGetOneProvince,validatedProvince,updateProvince);
 
-module.exports = router;
+module.exports = provinceRouter;
