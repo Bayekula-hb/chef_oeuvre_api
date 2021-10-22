@@ -19,7 +19,7 @@ const validationNewProvince = [
     .notEmpty()
     .withMessage("cannot be empty")
     .isLength({ min: 10 })
-    .withMessage("must be at least 100 chars")
+    .withMessage("must be at least 10 chars")
     .matches(/^[A-Za-z]{2,}/)
     .withMessage("contain the chars not valid"),
   check("chef_lieux")
@@ -36,7 +36,7 @@ validatedProvince.use(validationNewProvince, async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ error: errors.array() });
   }
-  res.send("Nice");
+  next();
 });
 
 module.exports = { validatedProvince };
