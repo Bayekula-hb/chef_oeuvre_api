@@ -1,9 +1,10 @@
 const express = require('express');
-const { getAllProvince } = require('../controllers/provinces.controllers');
+const {validatedProvince}=require("../middlewares/province.middleware")
+const { getAllProvince, addProvince } = require('../controllers/provinces.controllers');
 const router = express.Router();
 
 router.get("/",getAllProvince);
-router.post("/",);
+router.post("/",validatedProvince,addProvince);
 router.put("/",);
 
 module.exports = router;
