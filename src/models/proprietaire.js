@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     prenom_proprietaire: DataTypes.STRING,
     date_naissance: DataTypes.DATE,
     nationalite: DataTypes.STRING,
-    personnelId: DataTypes.INTEGER,    
+    personnelId: DataTypes.INTEGER,
     version: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
