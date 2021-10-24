@@ -3,6 +3,7 @@ const avenueRouter = require("./routers/avenues.route");
 const communeRouter = require("./routers/communes.route");
 const districtRouter = require("./routers/districs.router");
 const parcelleRouter = require("./routers/parcelles.router");
+const proprietaireRouter = require("./routers/proprietaires.router");
 const provinceRouter = require("./routers/provinces.router");
 const quartierRouter = require("./routers/quartiers.route");
 
@@ -18,6 +19,7 @@ app.use("/districts", districtRouter);
 app.use("/communes", communeRouter);
 app.use("/quartiers", quartierRouter);
 app.use("/avenues", avenueRouter);
-app.use("/avenues", parcelleRouter);
+app.use("/parcelles", parcelleRouter);
+app.use("/proprietaires", proprietaireRouter);
 
 module.exports = app;
