@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     nom_avenue: DataTypes.STRING,
     quartierId:DataTypes.INTEGER,
-    avenueId : DataTypes.STRING,
   }, {
     sequelize,
     paranoid: true,

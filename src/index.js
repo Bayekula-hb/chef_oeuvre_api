@@ -1,4 +1,5 @@
 const express = require("express");
+const avenueRouter = require("./routers/avenues.route");
 const communeRouter = require("./routers/communes.route");
 const districtRouter = require("./routers/districs.router");
 const provinceRouter = require("./routers/provinces.router");
@@ -14,6 +15,7 @@ app.get("/", async (req, res) => {
 app.use("/provinces", provinceRouter);
 app.use("/districts", districtRouter)
 app.use("/communes", communeRouter);
-app.use("/quartiers", quartierRouter)
+app.use("/quartiers", quartierRouter);
+app.use("/avenues", avenueRouter)
 
 module.exports = app;
