@@ -1,4 +1,4 @@
-const { parcelle, sequelize } = require("../models");
+const { parcelle, historique_parcelle,sequelize } = require("../models");
 
 const getOneParcelle = async (req, res) => {
   const { id_parcelle } = req.query;
@@ -33,6 +33,17 @@ const updateParcelle = async (req, res) => {
   const { id_parcelle } = req.query;
   const { proprietaireId, avenueId, numero} =
     req.body;
+  const oldParcelle = findOne({
+    where:{
+      id_parcelle
+    }
+  })
+  await historique_parcelle.create({
+    parcelleId:oldParcelle.id,
+    proprietaireId:oldParcelle.proprietaireId,
+    avenueId:oldParcelle.avenueId,
+    numero:oldParcelle.numero,
+  })
   const savedParcelle = await parcelle.update(
     {
       proprietaireId, avenueId, numero

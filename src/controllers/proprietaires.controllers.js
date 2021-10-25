@@ -1,4 +1,4 @@
-const { proprietaire, sequelize } = require("../models");
+const { historique_proprietaire, proprietaire, sequelize } = require("../models");
 
 const getOneProprietaire = async (req, res) => {
   const { id_proprietaire } = req.query;
@@ -41,6 +41,22 @@ const updateProprietaire = async (req, res) => {
   const { id_proprietaire } = req.query;
   const { nom_proprietaire, postnom_proprietaire, prenom_proprietaire, date_naissance, nationalite, personnelId } =
     req.body;
+  const oldVersionProprietaire = await proprietaire.findOne({
+    where:{
+      id_proprietaire,
+    }
+  })
+  await historique_proprietaire.create({
+    id_proprietaire:oldVersionProprietaire.id,
+    nom_proprietaire:oldVersionProprietaire.nom_proprietaire,
+    postnom_proprietaire:oldVersionProprietaire.postnom_proprietaire,
+    prenom_proprietaire:oldVersionProprietaire.prenom_proprietaire,
+    date_naissance:oldVersionProprietaire.date_naissance,
+    nationalite:oldVersionProprietaire.nationalite,
+    personnelId:oldVersionProprietaire.personnelId,
+    version:oldVersionProprietaire.version+1,
+    action:"update",
+  })
   const savedProprietaire = await proprietaire.update(
     {
       nom_proprietaire,
