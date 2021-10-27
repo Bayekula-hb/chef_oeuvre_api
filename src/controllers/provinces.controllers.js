@@ -1,4 +1,4 @@
-const { province,district, sequelize } = require("../models");
+const { province, district, sequelize } = require("../models");
 
 const getOneProvince = async (req, res) => {
   const { id_province } = req.query;
@@ -70,10 +70,10 @@ const getProvinceAndDistrict = async (req, res) => {
         "historique_province",
         "chef_lieux",
       ],
-      include :{
-        model:"district",
-        attributes:["id_district","nom_district", "superficie_district"]
-      }
+      include: {
+        model: district,
+        attributes: ["id_district", "nom_district", "superficie_district"],
+      },
     })
   );
 };
@@ -82,4 +82,5 @@ module.exports = {
   addProvince,
   getOneProvince,
   updateProvince,
+  getProvinceAndDistrict,
 };

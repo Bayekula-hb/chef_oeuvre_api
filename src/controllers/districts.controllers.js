@@ -1,4 +1,4 @@
-const { district, sequelize } = require("../models");
+const { district, commune,sequelize } = require("../models");
 
 const getOneDistrict = async (req, res) => {
   const { id_district } = req.query;
@@ -54,6 +54,24 @@ const updateDistrict = async (req, res) => {
     res.send({ message: "update completed fails" });
   }
 };
+const getDistrictAndCommune = async (req, res)=>{
+  const {id_district}=req.query;
+  res.status(200).send(
+    await district.findOne({
+      where: {
+        id_district
+      },
+      include:{
+        model:"commune",
+        attributes:[
+          "id_commune",
+          "historique_commune",
+          "superficie_commune",
+        ]
+      }
+    })
+  )
+} 
 
 module.exports = {
   getAllDistrict,
