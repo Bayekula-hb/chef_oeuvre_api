@@ -1,4 +1,4 @@
-const { province, sequelize } = require("../models");
+const { province,district, sequelize } = require("../models");
 
 const getOneProvince = async (req, res) => {
   const { id_province } = req.query;
@@ -55,6 +55,27 @@ const updateProvince = async (req, res) => {
   } else {
     res.send({ message: "update completed fails" });
   }
+};
+const getProvinceAndDistrict = async (req, res) => {
+  const { id_province } = req.query;
+  res.send(
+    await province.findOne({
+      where: {
+        id_province,
+      },
+      attributes: [
+        "id_province",
+        "nom_province",
+        "superficie_province",
+        "historique_province",
+        "chef_lieux",
+      ],
+      include :{
+        model:"district",
+        attributes:["id_district","nom_district", "superficie_district"]
+      }
+    })
+  );
 };
 module.exports = {
   getAllProvince,
