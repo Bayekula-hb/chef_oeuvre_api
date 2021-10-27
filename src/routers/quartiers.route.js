@@ -1,19 +1,21 @@
 const express = require("express");
 const {
-  validatedCommune,
-} = require("../middlewares/commune/validatorNewCommune.middleware");
+  validatedQuartier,
+} = require("../middlewares/quartier/validatorNewQuartier.middleware");
 const {
-  getAllCommune,
-  addCommune,
- getOneCommune,
-  updateCommune,
-} = require("../controllers/communes.controllers");
-const { validatedGetOneCommune } = require("../middlewares/commune/validatorGetcommune.middleware");
+  getAllQuartier,
+  addQuartier,
+ getOneQuartier,
+  updateQuartier,
+} = require("../controllers/quartiers.controllers");
+const { validatedGetOneQuartier } = require("../middlewares/quartier/validatorGetQuartier.middleware");
+const { getQartierAndAvenue } = require("../controllers/quartiers.controllers");
 const quartierRouter = express.Router();
 
-quartierRouter.get("/",validatedGetOneCommune,getOneCommune)
-quartierRouter.get("/All", getAllCommune);
-quartierRouter.post("/", validatedCommune, addCommune);
-quartierRouter.put("/",validatedGetOneCommune,validatedCommune,updateCommune);
+quartierRouter.get("/",validatedGetOneQuartier,getOneQuartier)
+quartierRouter.get("/All", getAllQuartier);
+quartierRouter.post("/", validatedQuartier, addQuartier);
+quartierRouter.put("/",validatedGetOneQuartier,validatedQuartier,updateQuartier);
+quartierRouter.get("/details",validatedGetOneQuartier,getQartierAndAvenue)
 
 module.exports = quartierRouter;
