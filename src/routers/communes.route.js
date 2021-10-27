@@ -5,15 +5,19 @@ const {
 const {
   getAllCommune,
   addCommune,
- getOneCommune,
+  getOneCommune,
   updateCommune,
+  getCommuneAndQuartier,
 } = require("../controllers/communes.controllers");
-const { validatedGetOneCommune } = require("../middlewares/commune/validatorGetcommune.middleware");
+const {
+  validatedGetOneCommune,
+} = require("../middlewares/commune/validatorGetcommune.middleware");
 const communeRouter = express.Router();
 
-communeRouter.get("/",validatedGetOneCommune,getOneCommune)
+communeRouter.get("/", validatedGetOneCommune, getOneCommune);
 communeRouter.get("/All", getAllCommune);
 communeRouter.post("/", validatedCommune, addCommune);
-communeRouter.put("/",validatedGetOneCommune,validatedCommune,updateCommune);
+communeRouter.put("/", validatedGetOneCommune, validatedCommune, updateCommune);
+communeRouter.get("/details", validatedGetOneCommune, getCommuneAndQuartier);
 
 module.exports = communeRouter;

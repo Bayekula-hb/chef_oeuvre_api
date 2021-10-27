@@ -62,7 +62,7 @@ const getDistrictAndCommune = async (req, res)=>{
         id_district
       },
       include:{
-        model:"commune",
+        model:commune,
         attributes:[
           "id_commune",
           "historique_commune",
@@ -78,4 +78,5 @@ module.exports = {
   addDistrict,
   getOneDistrict,
   updateDistrict,
+  getDistrictAndCommune
 };

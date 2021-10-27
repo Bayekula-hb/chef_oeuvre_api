@@ -1,4 +1,4 @@
-const { commune, sequelize } = require("../models");
+const { commune, quartier,sequelize } = require("../models");
 
 const getOneCommune = async (req, res) => {
   const { id_commune } = req.query;
@@ -60,9 +60,37 @@ const updateCommune = async (req, res) => {
   }
 };
 
+const getCommuneAndQuartier = async(req,res)=>{
+  const {id_commune}=req.query;
+  res.status(200).send(
+    await commune.findOne({
+      where:{
+        id_commune,
+      },
+      attributes: [
+        "id_commune",
+        "nom_commune",
+        "superficie_commune",
+        "historique_commune",
+        "districtId",
+      ],
+      include :{
+        model : quartier,
+        attributes:[
+          "id_quartier",
+          "nom_quartier",
+          "historique_quartier",
+          "superficie_quartier",
+        ]
+      }
+    })
+  )
+}
+
 module.exports = {
   getAllCommune,
   addCommune,
   getOneCommune,
   updateCommune,
+  getCommuneAndQuartier
 };
