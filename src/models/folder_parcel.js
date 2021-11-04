@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model,UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class commune extends Model {
+  class folder_parcel extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,30 +11,30 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.commune.belongsTo(models.district, {
+      models.folder_parcel.hasOne(models.parcel, {
         foreignKey: {
           allowNull: false,
-          name:"districtId",
+          name: "parcelId",
         },
         onDelete: "CASCADE",
-        onUpdate: "CASCADE"
+        onUpdate: "CASCADE",
       });
-      models.commune.hasMany(models.quartier)
     }
   };
-  commune.init({
-    id_commune: {
+  folder_parcel.init({
+    id_folder: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    nom_commune: DataTypes.STRING,
-    historique_commune: DataTypes.TEXT,
-    superficie_commune: DataTypes.DOUBLE,
-    districtId: DataTypes.INTEGER,
+    deed_of_sale: DataTypes.STRING,
+    lodgers_book: DataTypes.STRING,
+    pv_measurement_demarcation: DataTypes.STRING,
+    deed_of_assignement: DataTypes.STRING,
+    parcelId: DataTypes.INTEGER
   }, {
     sequelize,
     paranoid: true,
-    modelName: 'commune',
+    modelName: 'folder_parcel',
   });
-  return commune;
+  return folder_parcel;
 };

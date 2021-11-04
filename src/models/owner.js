@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model, UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class proprietaire extends Model {
+  class owner extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,36 +11,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.proprietaire.belongsTo(models.province, {
+      models.owner.belongsTo(models.staff, {
         foreignKey: {
           allowNull: false,
-          name:"provinceId",
+          name:"staffId",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.proprietaire.hasMany(models.parcelle)
+      models.owner.hasMany(models.parcel)
     }
   };
-  proprietaire.init({
-    id_proprietaire: {
+  owner.init({
+    id_owner:{
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    nom_proprietaire: DataTypes.STRING,
-    postnom_proprietaire: DataTypes.STRING,
-    prenom_proprietaire: DataTypes.STRING,
-    date_naissance: DataTypes.DATE,
-    nationalite: DataTypes.STRING,
-    personnelId: DataTypes.INTEGER,
-    version: {
+    name_owner: DataTypes.STRING,
+    postname_owner: DataTypes.STRING,
+    firstname_owner: DataTypes.STRING,
+    dateofbirth: DataTypes.DATE,
+    nationality: DataTypes.STRING,
+    staffId: DataTypes.INTEGER,
+    version:  {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
   }, {
     sequelize,
-    paranoid: true,
-    modelName: 'proprietaire',
+    paranoid:true,
+    modelName: 'owner',
   });
-  return proprietaire;
+  return owner;
 };

@@ -1,5 +1,7 @@
-"use strict";
-const { Model, UUIDV4 } = require("sequelize");
+'use strict';
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class district extends Model {
     /**
@@ -17,24 +19,21 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.district.hasMany(models.commune)
+      models.district.hasMany(models.township)
     }
-  }
-  district.init(
-    {
-      id_district: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-      },
-      nom_district: DataTypes.STRING,
-      superficie_district: DataTypes.DOUBLE,
-      provinceId : DataTypes.INTEGER,
+  };
+  district.init({
+    id_district: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
     },
-    {
-      sequelize,
-      paranoid: true,
-      modelName: "district",
-    }
-  );
+    name_district: DataTypes.STRING,
+    surface_district: DataTypes.STRING,
+    provinceId: DataTypes.INTEGER
+  }, {
+    sequelize,
+    paranoid: true,
+    modelName: "district",
+  });
   return district;
 };

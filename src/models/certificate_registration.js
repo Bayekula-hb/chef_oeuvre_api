@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model, UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class certificat_enregistrement extends Model {
+  class certificate_registration extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,37 +11,37 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.certificat_enregistrement.hasOne(models.parcelle, {
+      models.certificate_registration.hasOne(models.parcel, {
         foreignKey: {
           allowNull: false,
-          name: "parcelleId",
+          name: "parcelId",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
       });
     }
   };
-  certificat_enregistrement.init({
-    id_certificat: {
+  certificate_registration.init({
+    id_certificate: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    numero_cadatre: DataTypes.STRING,
-    latitude: DataTypes.DOUBLE,
-    altitude: DataTypes.DOUBLE,
-    longitude: DataTypes.DOUBLE,
-    nom_conservateur: DataTypes.STRING,
+    cadastral_number: DataTypes.STRING,
+    latitude: DataTypes.FLOAT,
+    longitude: DataTypes.FLOAT,
+    altitude: DataTypes.FLOAT,
+    name_conservative: DataTypes.STRING,
     volume: DataTypes.STRING,
     folio: DataTypes.STRING,
     situation: DataTypes.TEXT,
-    description: DataTypes.TEXT,
-    superficie: DataTypes.DOUBLE,
-    croquis: DataTypes.STRING,
-    parcelleId: DataTypes.INTEGER,
+    description: DataTypes.STRING,
+    surface: DataTypes.STRING,
+    sketch: DataTypes.STRING,
+    parcelId: DataTypes.INTEGER
   }, {
     sequelize,
-    paranoid: true,
-    modelName: "certificat_enregistrement",
+    paranoid:true,
+    modelName: 'certificate_registration',
   });
-  return certificat_enregistrement;
+  return certificate_registration;
 };

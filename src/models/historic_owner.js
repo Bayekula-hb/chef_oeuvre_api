@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model, UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class historique_proprietaire extends Model {
+  class historic_owner extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,24 +13,24 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  historique_proprietaire.init({
+  historic_owner.init({
     id_historique: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    id_proprietaire: DataTypes.INTEGER,
-    nom_proprietaire: DataTypes.STRING,
-    postnom_proprietaire: DataTypes.STRING,
-    prenom_proprietaire: DataTypes.STRING,
-    date_naissance: DataTypes.DATE,
-    nationalite: DataTypes.STRING,
-    personnelId: DataTypes.INTEGER,
+    id_owner: DataTypes.STRING,
+    name_owner: DataTypes.STRING,
+    postname_owner: DataTypes.STRING,
+    firstname_owner: DataTypes.STRING,
+    dateofbirth: DataTypes.DATE,
+    nationality: DataTypes.STRING,
+    staffId: DataTypes.INTEGER,
     version: DataTypes.INTEGER,
     action: DataTypes.STRING
   }, {
     sequelize,
     paranoid:true,
-    modelName: 'historique_proprietaire',
+    modelName: 'historic_owner',
   });
-  return historique_proprietaire;
+  return historic_owner;
 };

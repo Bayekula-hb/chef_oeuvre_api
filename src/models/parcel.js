@@ -1,9 +1,9 @@
 'use strict';
 const {
-  Model, UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class parcelle extends Model {
+  class parcel extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.parcelle.belongsTo(models.proprietaire, {
+      models.parcel.belongsTo(models.owner, {
         foreignKey: {
           allowNull: false,
-          name:"proprietaireId",
+          name:"ownerId",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.parcelle.belongsTo(models.avenue, {
+      models.parcel.belongsTo(models.avenue, {
         foreignKey: {
           allowNull: false,
           name:"avenueId",
@@ -27,21 +27,26 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.parcelle.belongsTo(models.certificat_enregistrement)
-      models.parcelle.belongsTo(models.dossier_parcelle)
+      models.parcel.belongsTo(models.certificate_registration)
+      models.parcel.belongsTo(models.folder_parcel)
     }
   };
-  parcelle.init({ 
-    id_parcelle: {
+  parcel.init({
+    id_parcel: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    proprietaireId: DataTypes.INTEGER,
+    ownerId: DataTypes.INTEGER,
     avenueId: DataTypes.INTEGER,
-    numero: DataTypes.STRING,
-  }, {    sequelize,
+    number_parcel: DataTypes.STRING,
+    version:  {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
+  }, {
+    sequelize,
     paranoid: true,
-    modelName: 'parcelle',
+    modelName: 'parcel',
   });
-  return parcelle;
+  return parcel;
 };
