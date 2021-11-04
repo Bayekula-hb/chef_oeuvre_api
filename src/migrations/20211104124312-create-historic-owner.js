@@ -9,10 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_historique: {
-        type: Sequelize.UUID
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       id_owner: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
       name_owner: {
         type: Sequelize.STRING
@@ -45,7 +46,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

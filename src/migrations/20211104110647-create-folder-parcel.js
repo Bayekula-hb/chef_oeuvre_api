@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_folder: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       deed_of_sale: {
         type: Sequelize.STRING
@@ -24,7 +25,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       parcelId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "parcels",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -33,7 +38,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

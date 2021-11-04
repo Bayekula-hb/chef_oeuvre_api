@@ -12,10 +12,18 @@ module.exports = {
         type: Sequelize.STRING
       },
       ownerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "owners",
+          key: "id",
+        },
       },
       avenueId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "avenues",
+          key: "id",
+        },
       },
       number_parcel: {
         type: Sequelize.STRING
@@ -27,7 +35,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

@@ -9,12 +9,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_township: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+      },
+      name_township: {
         type: Sequelize.STRING
       },
       image_township:{
-        type: Sequelize.STRING
-      },
-      name_township: {
         type: Sequelize.STRING
       },
       history_township: {
@@ -24,7 +25,11 @@ module.exports = {
         type: Sequelize.FLOAT
       },
       districtId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "districts",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -33,7 +38,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

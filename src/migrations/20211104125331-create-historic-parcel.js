@@ -9,10 +9,11 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_historic_parcel: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
-      id_parcelle: {
-        type: Sequelize.STRING
+      id_parcel: {
+        type: Sequelize.INTEGER
       },
       ownerId: {
         type: Sequelize.INTEGER
@@ -33,7 +34,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

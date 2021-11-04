@@ -9,7 +9,9 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_province: {
-        type: Sequelize.STRING
+        allowNull: false,
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       image_province:{
         type: Sequelize.STRING
@@ -33,7 +35,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

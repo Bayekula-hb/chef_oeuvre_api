@@ -9,13 +9,18 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_avenue: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       name_avenue: {
         type: Sequelize.STRING
       },
       quarterId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: "quarters",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -24,7 +29,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

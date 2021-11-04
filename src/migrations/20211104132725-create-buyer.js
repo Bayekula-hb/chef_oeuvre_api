@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       name_buyer: {
-        type: Sequelize.STRING
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
       },
       postname_buyer: {
         type: Sequelize.STRING
@@ -24,7 +25,11 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

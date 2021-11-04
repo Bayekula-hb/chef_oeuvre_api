@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_district: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       name_district: {
         type: Sequelize.STRING
@@ -18,11 +19,19 @@ module.exports = {
         type: Sequelize.STRING
       },
       provinceId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"provinces",
+          key: "id",
+        }
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
+      },
+      deletedAt: {
+        allowNull: true,
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
