@@ -19,6 +19,14 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
+      models.parcelle.belongsTo(models.avenue, {
+        foreignKey: {
+          allowNull: false,
+          name:"avenueId",
+        },
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE"
+      });
       models.parcelle.belongsTo(models.certificat_enregistrement)
       models.parcelle.belongsTo(models.dossier_parcelle)
     }
@@ -31,8 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     proprietaireId: DataTypes.INTEGER,
     avenueId: DataTypes.INTEGER,
     numero: DataTypes.STRING,
-  }, {
-    sequelize,
+  }, {    sequelize,
     paranoid: true,
     modelName: 'parcelle',
   });
