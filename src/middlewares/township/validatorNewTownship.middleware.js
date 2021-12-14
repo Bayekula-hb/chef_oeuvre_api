@@ -3,19 +3,19 @@ const { body, check, validationResult } = require("express-validator");
 
 const validatedCommune = express();
 const validationNewCommune = [
-  body("nom_commune")
+  body("name_township")
     .notEmpty()
     .withMessage("Cannot be empty")
     .isLength({ min: 5 })
     .withMessage("must be at least 5 chars long")
     .matches(/^[A-Za-z_-]{5,}$/)
     .withMessage("contain the number"),
-  check("superficie_commune")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars")
-    .matches(/^\d{2,}$/)
+  check("surface_township")
+    .isLength({ min: 3 })
+    .withMessage("must be at least 3 chars")
+    .matches(/^\d{3,}/)
     .withMessage("contain the number"),
-  check("historique_commune")
+  check("history_township")
     .notEmpty()
     .withMessage("cannot be empty")
     .isLength({ min: 10 })
@@ -25,10 +25,10 @@ const validationNewCommune = [
   check("districtId")
     .notEmpty()
     .withMessage("cannot be empty")
-    .isLength({ min: 1 })
-    .withMessage("must be at least 1 chars")
-    .matches(/^\d{1,}$/)
-    .withMessage("contain the chars not valid"),
+    .isLength({ min: 8 })
+    .withMessage("must be at least 8 chars"),
+    // .matches(/^\d{1,}$/)
+    // .withMessage("contain the chars not valid"),
 ];
 
 validatedCommune.use(validationNewCommune, async (req, res, next) => {

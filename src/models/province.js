@@ -19,7 +19,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    name_province: DataTypes.STRING,
+    name_province: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
     image_province: DataTypes.STRING,
     history_province: DataTypes.TEXT,
     surface_province: DataTypes.FLOAT,

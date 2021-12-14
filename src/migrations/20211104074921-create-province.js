@@ -17,7 +17,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       name_province: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
       },
       history_province: {
         type: Sequelize.TEXT
