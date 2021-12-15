@@ -80,3 +80,5 @@ const getAllStaff = async (req, res) => {
     })
   );
 };
+
+module.exports = {addStaff, updateStaff, getAllStaff}

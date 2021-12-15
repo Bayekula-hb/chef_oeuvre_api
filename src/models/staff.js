@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   staff.init({
-    id_personnel: {
+    id_staff: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
