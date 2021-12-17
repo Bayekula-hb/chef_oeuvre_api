@@ -36,6 +36,12 @@ module.exports = {
       sexe:{
         type: Sequelize.STRING
       },
+      isAdmin:{
+        type : Sequelize.BOOLEAN
+      },
+      status:{
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

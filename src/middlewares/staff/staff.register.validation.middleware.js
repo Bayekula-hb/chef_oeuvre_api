@@ -35,11 +35,16 @@ const validationMiddlewares = [
     .withMessage("Cannot be empty")
     .isLength({ min: 6 })
     .withMessage("must be at least 6 chars long"),
+  body("password1")
+    .notEmpty()
+    .withMessage("Cannot be empty")
+    .isLength({ min: 6 })
+    .withMessage("must be at least 6 chars long"),
   body("personnalnumber")
     .isMobilePhone()
     .withMessage("Phone number not correct"),
   body("sexe").notEmpty().withMessage("Cannot be empty").trim().escape(),
-  body("statut")
+  body("status")
     .notEmpty()
     .withMessage("Cannot be empty")
     .matches(/\w/)
@@ -50,30 +55,37 @@ const validationMiddlewares = [
 
 userRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
   let {
-    nom_user,
-    postnom_user,
-    prenom_user,
-    sexe_user,
+    name_staff,
+    postname_staff,
+    firstname_staff,
+    username,
+    sexe,
+    personnalnumber,
     email,
     is_admin,
     password,
-    statut,
+    password1,
+    status,
   } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
+  if(password !== password1){
+    return res.status(400).json({ message: "Les deux mots de passe ne sont pas identiques" });
+  }
   const password_brut = password;
 
   res.password = bcrypt.hashSync(password, 10);
   res.email = email;
-  res.nom_user = nom_user;
-  res.postnom_user = postnom_user;
-  res.prenom_user = prenom_user;
+  res.name_staff= name_staff;
+  res.postname_staff= postname_staff;
+  res.firstname_staff= firstname_staff;
   res.is_admin = is_admin;
-  res.sexe_user = sexe_user;
-  res.statut = statut;
-  res.password_brut = password_brut;
+  res.sexe= sexe;
+  res.status = status;
+  res.username = username;
+  res.personnalnumber = personnalnumber;
   next();
 });
 

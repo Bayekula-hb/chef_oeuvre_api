@@ -9,7 +9,10 @@ const addStaff = async (req, res) => {
     password,
     username,
     email,
-  } = req.body;
+    is_admin,
+    sexe,
+    status
+  } = res;
 
   const savedStaff = await staff.create({
     name_staff,
@@ -19,15 +22,18 @@ const addStaff = async (req, res) => {
     password,
     username,
     email,
+    sexe,
+    is_admin,
+    status
   });
   if (savedStaff) {
     res
-      .status(200)
+      .statut(200)
       .send(
         `Le personnel ${savedStaff.name_staff} ${savedStaff.firstname_staff} ajouté avec succès`
       );
   } else {
-    res.status(400).send(`Erreur lors de la création du compte`);
+    res.statut(400).send(`Erreur lors de la création du compte`);
   }
 };
 
@@ -60,13 +66,13 @@ const updateStaff = async (req, res) => {
   );
   if (updatedStaff) {
     res
-      .status(200)
+      .statut(200)
       .send(
         `Mise à jour effectuée avec succès pour le personnel ${updatedStaff.name_staff} ${updatedStaff.firstname_staff}`
       );
   } else {
     res
-      .status(400)
+      .statut(400)
       .send(
         `Mise à jour effectuée échoue pour le personnel ${updatedStaff.name_staff} ${updatedStaff.firstname_staff}`
       );
