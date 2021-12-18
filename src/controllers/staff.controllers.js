@@ -1,8 +1,9 @@
 const { staff, sequelize } = require("../models");
+const { compare } = require("bcrypt");
 
 const addStaff = async (req, res, next) => {
-  const result = await sequelize.transaction(async (t) => {
-    try {
+  try {
+    const result = await sequelize.transaction(async (t) => {
       const {
         name_staff,
         firstname_staff,
@@ -32,11 +33,13 @@ const addStaff = async (req, res, next) => {
           status,
         });
         if (savedStaff) {
-          return res
-            // .status(200)
-            .send(
-              `Staff ${savedStaff.name_staff} ${savedStaff.firstname_staff} added with success`
-            );
+          return (
+            res
+              // .status(200)
+              .send(
+                `Staff ${savedStaff.name_staff} ${savedStaff.firstname_staff} added with success`
+              )
+          );
         } else {
           return (
             res
@@ -45,60 +48,93 @@ const addStaff = async (req, res, next) => {
           );
         }
       } else {
-        return res
-        // .status(200)
-        .json({
-          erreur: "Request faid",
-          message: "Staff with email already exists!",
-        });
+        return (
+          res
+            // .status(200)
+            .json({
+              erreur: "Failed request",
+              message: "Staff with email already exists!",
+            })
+        );
       }
-    } catch (error) {
-      res
-        // .status(400)
-        .json({ erreur: "Request faid", message: `${error} ${t}` });
-    }
-  });
+    });
+  } catch (error) {
+    res
+      // .status(400)
+      .json({ erreur: "Failed request", message: `${error} ${t}` });
+  }
 };
 
 const updateStaff = async (req, res) => {
-  const { id_staff } = req.params;
-  const {
-    name_staff,
-    firstname_staff,
-    postname_staff,
-    personnalnumber,
-    password,
-    username,
-    email,
-  } = req.body;
-  const updatedStaff = await staff.update(
-    {
-      name_staff,
-      firstname_staff,
-      postname_staff,
-      personnalnumber,
-      password,
-      username,
-      email,
-    },
-    {
-      where: {
-        id_staff,
-      },
-    }
-  );
-  if (updatedStaff) {
-    res
-      .status(200)
-      .send(
-        `Mise à jour effectuée avec succès pour le personnel ${updatedStaff.name_staff} ${updatedStaff.firstname_staff}`
-      );
-  } else {
-    res
-      .status(400)
-      .send(
-        `Mise à jour effectuée échoue pour le personnel ${updatedStaff.name_staff} ${updatedStaff.firstname_staff}`
-      );
+  // if (req.user.id_user !== res.id_user) {
+  //   return res.status(400).send("Access denied. Can't update another user.");
+  // }
+  // const verifyPassword = await compare(res.old_password, req.user.password);
+  // if (!verifyPassword) {
+  //   return res.status(400).send("password not correct");
+  // }
+
+  const { id_staff } = req.query;
+  const staffFind = await staff.findOne({ where: { id_staff } });
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      if (staffFind) {
+        const {
+          name_staff,
+          firstname_staff,
+          postname_staff,
+          personnalnumber,
+          password,
+          username,
+          email,
+          is_admin,
+          sexe,
+          status,
+        } = res;
+        const updatedStaff = await staff.update(
+          {
+            name_staff,
+            firstname_staff,
+            postname_staff,
+            personnalnumber,
+            password,
+            username,
+            email,
+            is_admin,
+            sexe,
+            status,
+          },
+          {
+            where: {
+              id_staff,
+            },
+          }
+        );
+        if (updatedStaff) {
+          res
+            // .status(200)
+            .send(
+              `Mise à jour effectuée avec succès pour le personnel ${staffFind.name_staff} ${staffFind.firstname_staff}`
+            );
+        } else {
+          res
+            // .status(400)
+            .send(
+              `Mise à jour effectuée échoue pour le personnel ${staffFind.name_staff} ${staffFind.firstname_staff}`
+            );
+        }
+      } else {
+        res.json({ error: "erreur", message: "This staff not found" });
+      }
+    });
+  } catch (error) {
+    return (
+      res
+        // .status(400)
+        .json({
+          message: `Impossible de mettre à jour ce personnel ${staffFind.name_staff} ${staffFind.postname_staff} ${Error}`,
+        })
+    );
   }
 };
 
@@ -110,4 +146,19 @@ const getAllStaff = async (req, res) => {
   );
 };
 
-module.exports = { addStaff, updateStaff, getAllStaff };
+const getOneStaff = async (req, res) => {
+  const { id_staff } = res;
+  const oneStaff = await staff.findOne({
+    where: { id_staff },
+    attributes: { exclude: ["id", "deletedAt", "password"] },
+  });
+  if (oneStaff) {
+    res.status(200).json(oneStaff);
+  } else {
+    res.status(400).json({
+      message: `Personnel with ID ${id_staff} cannot be found  `,
+    });
+  }
+};
+
+module.exports = { addStaff, updateStaff, getAllStaff, getOneStaff };

@@ -2,22 +2,24 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const { param, validationResult } = require("express-validator");
 
-const getUserMiddleware = express();
+const getStaffMiddleware = express();
 
-getUserMiddleware.use(
+getStaffMiddleware.use(
   [
-    param("id_user").isEmpty().withMessage("paramètre manquant"),
+    param("id_staff").isEmpty().withMessage("paramètre manquant")
+    .trim()
+    .escape(),
   ],
   (req, res, next) => {
-    let { id_user } = req.query;
+    const { id_staff } = req.query;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-    res.id_user = id_user;
+    res.id_staff = id_staff;
     next();
   }
 );
 
-module.exports = getUserMiddleware;
+module.exports = getStaffMiddleware;

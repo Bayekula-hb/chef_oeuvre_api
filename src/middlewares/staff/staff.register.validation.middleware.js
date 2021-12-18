@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
 
-const userRegisterMiddleware = express();
+const staffRegisterMiddleware = express();
 
 const validationMiddlewares = [
   body("email")
@@ -75,7 +75,7 @@ const validationMiddlewares = [
     .withMessage("Is not Boolean value"),
 ];
 
-userRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
+staffRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
   let {
     name_staff,
     postname_staff,
@@ -108,4 +108,4 @@ userRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
   next();
 });
 
-module.exports = userRegisterMiddleware;
+module.exports = staffRegisterMiddleware;
