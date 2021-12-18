@@ -5,7 +5,12 @@ const { body, validationResult } = require("express-validator");
 const userRegisterMiddleware = express();
 
 const validationMiddlewares = [
-  body("email").notEmpty().withMessage("Cannot be empty").isEmail(),
+  body("email")
+    .notEmpty()
+    .withMessage("Cannot be empty")
+    .isEmail()
+    .trim()
+    .escape(),
   body("name_staff")
     .notEmpty()
     .withMessage("Cannot be empty")
@@ -16,7 +21,7 @@ const validationMiddlewares = [
   body("firstname_staff")
     .notEmpty()
     .withMessage("Cannot be empty")
-    .isLength({ min: 3 })
+    .isLength({ min: 2 })
     .withMessage("must be at least 3 chars long")
     .trim()
     .escape(),
@@ -34,15 +39,27 @@ const validationMiddlewares = [
     .notEmpty()
     .withMessage("Cannot be empty")
     .isLength({ min: 6 })
-    .withMessage("must be at least 6 chars long"),
-  body("password1")
-    .notEmpty()
-    .withMessage("Cannot be empty")
-    .isLength({ min: 6 })
-    .withMessage("must be at least 6 chars long"),
+    .withMessage("must be at least 6 chars long")
+    .trim()
+    .escape(),
+  body("password1").custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error("Password confirmation does not match password");
+    }
+    return true;
+  }),
+  // body("password1")
+  //   .notEmpty()
+  //   .withMessage("Cannot be empty")
+  //   .isLength({ min: 6 })
+  //   .withMessage("must be at least 6 chars long")
+  //   .trim()
+  //   .escape(),
   body("personnalnumber")
     .isMobilePhone()
-    .withMessage("Phone number not correct"),
+    .withMessage("Phone number not correct")
+    .trim()
+    .escape(),
   body("sexe").notEmpty().withMessage("Cannot be empty").trim().escape(),
   body("status")
     .notEmpty()
@@ -51,6 +68,11 @@ const validationMiddlewares = [
     .withMessage("pas de chiffres")
     .trim()
     .escape(),
+  body("is_admin")
+    .notEmpty()
+    .withMessage("Cannot be empty")
+    .isBoolean()
+    .withMessage("Is not Boolean value"),
 ];
 
 userRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
@@ -71,18 +93,15 @@ userRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  if(password !== password1){
-    return res.status(400).json({ message: "Les deux mots de passe ne sont pas identiques" });
-  }
   const password_brut = password;
 
   res.password = bcrypt.hashSync(password, 10);
   res.email = email;
-  res.name_staff= name_staff;
-  res.postname_staff= postname_staff;
-  res.firstname_staff= firstname_staff;
+  res.name_staff = name_staff;
+  res.postname_staff = postname_staff;
+  res.firstname_staff = firstname_staff;
   res.is_admin = is_admin;
-  res.sexe= sexe;
+  res.sexe = sexe;
   res.status = status;
   res.username = username;
   res.personnalnumber = personnalnumber;
