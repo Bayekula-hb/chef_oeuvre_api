@@ -1,6 +1,6 @@
 'use strict';
 const {
-  Model, UUIDV4
+  Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class province extends Model {
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.province.hasMany(models.quartier)
+      models.province.hasMany(models.district)
     }
   };
   province.init({
@@ -19,10 +19,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    nom_province: DataTypes.STRING,
-    historique_province: DataTypes.STRING,
-    superficie_province: DataTypes.DOUBLE,
-    chef_lieux: DataTypes.STRING
+    name_province: DataTypes.STRING,
+    image_province: DataTypes.STRING,
+    history_province: DataTypes.TEXT,
+    surface_province: DataTypes.FLOAT,
+    chieftown: DataTypes.STRING
   }, {
     sequelize,
     paranoid: true,

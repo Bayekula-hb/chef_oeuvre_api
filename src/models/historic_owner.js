@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class block extends Model {
+  class historic_owner extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,18 +13,24 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  block.init({
-    id_block: {
+  historic_owner.init({
+    id_historique: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    prevhash: DataTypes.STRING,
-    hash: DataTypes.STRING,
-    transactions: DataTypes.JSON
+    id_owner: DataTypes.STRING,
+    name_owner: DataTypes.STRING,
+    postname_owner: DataTypes.STRING,
+    firstname_owner: DataTypes.STRING,
+    dateofbirth: DataTypes.DATE,
+    nationality: DataTypes.STRING,
+    staffId: DataTypes.INTEGER,
+    version: DataTypes.INTEGER,
+    action: DataTypes.STRING
   }, {
     sequelize,
-    paranoid: true,
-    modelName: 'block',
+    paranoid:true,
+    modelName: 'historic_owner',
   });
-  return block;
+  return historic_owner;
 };

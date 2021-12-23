@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class district extends Model {
+  class owner extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,29 +11,36 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.district.belongsTo(models.province, {
+      models.owner.belongsTo(models.staff, {
         foreignKey: {
           allowNull: false,
-          name:"provinceId",
+          name:"staffId",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.district.hasMany(models.township)
+      models.owner.hasMany(models.parcel)
     }
   };
-  district.init({
-    id_district: {
+  owner.init({
+    id_owner:{
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
     },
-    name_district: DataTypes.STRING,
-    surface_district: DataTypes.STRING,
-    provinceId: DataTypes.INTEGER
+    name_owner: DataTypes.STRING,
+    postname_owner: DataTypes.STRING,
+    firstname_owner: DataTypes.STRING,
+    dateofbirth: DataTypes.DATE,
+    nationality: DataTypes.STRING,
+    staffId: DataTypes.INTEGER,
+    version:  {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
   }, {
     sequelize,
-    paranoid: true,
-    modelName: "district",
+    paranoid:true,
+    modelName: 'owner',
   });
-  return district;
+  return owner;
 };
