@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class staff extends Model {
     /**
@@ -11,25 +9,31 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.staff.hasMany(models.owner)
+      models.staff.hasMany(models.owner);
     }
-  };
-  staff.init({
-    id_personnel: {
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+  }
+  staff.init(
+    {
+      id_staff: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+      },
+      name_staff: DataTypes.STRING,
+      firstname_staff: DataTypes.STRING,
+      postname_staff: DataTypes.STRING,
+      personnalnumber: DataTypes.STRING,
+      password: DataTypes.STRING,
+      username: DataTypes.STRING,
+      email: DataTypes.STRING,
+      sexe: DataTypes.STRING,
+      is_admin: DataTypes.BOOLEAN,
+      status: DataTypes.STRING,
     },
-    name_staff: DataTypes.STRING,
-    firstname_staff: DataTypes.STRING,
-    postname_staff: DataTypes.STRING,
-    personnalnumber: DataTypes.STRING,
-    password: DataTypes.STRING,
-    username: DataTypes.STRING,
-    email: DataTypes.STRING
-  }, {
-    sequelize,
-    paranoid: true,
-    modelName: 'staff',
-  });
+    {
+      sequelize,
+      paranoid: true,
+      modelName: "staff",
+    }
+  );
   return staff;
 };

@@ -3,6 +3,4 @@ require("dotenv").config();
 const server = require("./src");
 const PORT = process.env.PORT || 3500;
 
-server.listen(PORT, async () => {
-  console.log(`Server running to the port : ${PORT}`);
-});
+server.listen(PORT, async () => {});

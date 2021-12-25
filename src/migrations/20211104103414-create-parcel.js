@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      id_parcelle: {
+      id_parcel: {
         type: Sequelize.STRING
       },
       ownerId: {

@@ -1,20 +1,20 @@
 const express = require("express");
-const { body, check, validationResult } = require("express-validator");
+const { body, validationResult } = require("express-validator");
 
 const validatedAvenue = express();
 const validationNewAvenue = [
-  body("nom_avenue")
+  body("name_avenue")
     .notEmpty()
     .withMessage("Cannot be empty")
     .isLength({ min: 5 })
     .withMessage("must be at least 5 chars long")
-    .matches(/^[A-Za-z_-]{5,}$/)
+    .matches(/^[A-Za-z_-]{4,}/)
     .withMessage("contain the number"),
-  check("quartierId")
-    .isLength({ min: 2 })
-    .withMessage("must be at least 2 chars")
-    .matches(/^\d{2,}$/)
-    .withMessage("contain the number"),
+  body("quarterId")
+    .isLength({ min: 4 })
+    .withMessage("must be at least 4 chars")
+    .matches(/\w{4,}/)
+    .withMessage("contain not the chars"),
 ];
 
 validatedAvenue.use(validationNewAvenue, async (req, res, next) => {

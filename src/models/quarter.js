@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     id_quarter: DataTypes.STRING,
     name_quarter: DataTypes.STRING,
     history_quarter: DataTypes.STRING,
+    surface_quarter: DataTypes.FLOAT,
     townshipId: DataTypes.INTEGER
   }, {
     sequelize,

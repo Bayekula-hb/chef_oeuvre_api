@@ -18,6 +18,9 @@ module.exports = {
       history_quarter: {
         type: Sequelize.STRING
       },
+      surface_quarter: {
+        type: Sequelize.FLOAT,
+      },
       townshipId: {
         type: Sequelize.INTEGER,
         references: {
