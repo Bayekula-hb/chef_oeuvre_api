@@ -8,8 +8,11 @@ const provinceRouter = require("./routers/provinces.router");
 const quarterRouter = require("./routers/quarters.route");
 const staffRouter = require("./routers/staffs.router");
 const { authRouter } = require("./routers/login.router");
+const passport = require("passport");
 
 const app = express();
+
+require("../src/auth/passport");
 
 app.use(express.json());
 
@@ -18,13 +21,13 @@ app.get("/", async (req, res) => {
 });
 
 app.use("/api_lopango/auth", authRouter);
-app.use("/api_lopango/provinces", provinceRouter);
-app.use("/api_lopango/districts", districtRouter);
-app.use("/api_lopango/townships", townshipRouter);
-app.use("/api_lopango/quarters", quarterRouter);
-app.use("/api_lopango/avenues", avenueRouter);
-app.use("/api_lopango/parcels", parcelleRouter);
-app.use("/api_lopango/owners", proprietaireRouter);
-app.use("/api_lopango/staffs", staffRouter);
+app.use("/api_lopango/provinces", passport.authenticate("jwt", { session: false }),  provinceRouter);
+app.use("/api_lopango/districts", passport.authenticate("jwt", { session: false }),  districtRouter);
+app.use("/api_lopango/townships",  passport.authenticate("jwt", { session: false }), townshipRouter);
+app.use("/api_lopango/quarters", passport.authenticate("jwt", { session: false }),  quarterRouter);
+app.use("/api_lopango/avenues", passport.authenticate("jwt", { session: false }),  avenueRouter);
+app.use("/api_lopango/parcels", passport.authenticate("jwt", { session: false }),  parcelleRouter);
+app.use("/api_lopango/owners", passport.authenticate("jwt", { session: false }),  proprietaireRouter);
+app.use("/api_lopango/staffs", passport.authenticate("jwt", { session: false }),  staffRouter);
 
 module.exports = app;
