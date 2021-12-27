@@ -2,7 +2,7 @@ const passport = require("passport");
 const passportJwt = require("passport-jwt");
 const ExtractJwt = passportJwt.ExtractJwt;
 const StrategyJwt = passportJwt.Strategy;
-const { user }= require("../models");
+const { staff }= require("../models");
 
 passport.use(
   new StrategyJwt(
@@ -12,9 +12,9 @@ passport.use(
     },
 
     function (jwtPayload, done) {
-       user.findOne({ where: { id: jwtPayload.id } })
-        .then((user) => {
-          return done(null, user);
+       staff.findOne({ where: { id: jwtPayload.id } })
+        .then((staff) => {
+          return done(null, staff);
         })
         .catch((err) => {
           return done(err);
