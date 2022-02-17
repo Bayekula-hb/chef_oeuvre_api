@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
+const randomstring = require("randomstring");
 
 const staffRegisterMiddleware = express();
 
@@ -14,7 +15,7 @@ const validationMiddlewares = [
   body("name_staff")
     .notEmpty()
     .withMessage("Cannot be empty")
-    .isLength({ min: 3 })
+    .isLength({ min: 2 })
     .withMessage("must be at least 3 chars long")
     .trim()
     .escape(),
@@ -35,26 +36,19 @@ const validationMiddlewares = [
     .withMessage("must be at least 3 chars long")
     .trim()
     .escape(),
-  body("password")
-    .notEmpty()
-    .withMessage("Cannot be empty")
-    .isLength({ min: 6 })
-    .withMessage("must be at least 6 chars long")
-    .trim()
-    .escape(),
-  body("password1").custom((value, { req }) => {
-    if (value !== req.body.password) {
-      throw new Error("Password confirmation does not match password");
-    }
-    return true;
-  }),
-  // body("password1")
+  // body("password")
   //   .notEmpty()
   //   .withMessage("Cannot be empty")
   //   .isLength({ min: 6 })
   //   .withMessage("must be at least 6 chars long")
   //   .trim()
   //   .escape(),
+  // body("password1").custom((value, { req }) => {
+  //   if (value !== req.body.password) {
+  //     throw new Error("Password confirmation does not match password");
+  //   }
+  //   return true;
+  // }),
   body("personnalnumber")
     .isMobilePhone()
     .withMessage("Phone number not correct")
@@ -80,22 +74,21 @@ staffRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
     name_staff,
     postname_staff,
     firstname_staff,
-    username,
     sexe,
-    personnalnumber,
     email,
     is_admin,
-    password,
-    password1,
     status,
   } = req.body;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const password_brut = password;
+  const password_brut = randomstring.generate({
+    length: 8,
+    charset: 'alphabetic'
+  });;
 
-  res.password = bcrypt.hashSync(password, 10);
+  res.password = bcrypt.hashSync(password_brut, 10);
   res.email = email;
   res.name_staff = name_staff;
   res.postname_staff = postname_staff;
@@ -103,8 +96,6 @@ staffRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
   res.is_admin = is_admin;
   res.sexe = sexe;
   res.status = status;
-  res.username = username;
-  res.personnalnumber = personnalnumber;
   next();
 });
 

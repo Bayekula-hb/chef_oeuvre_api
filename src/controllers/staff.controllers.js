@@ -8,9 +8,7 @@ const addStaff = async (req, res, next) => {
         name_staff,
         firstname_staff,
         postname_staff,
-        personnalnumber,
         password,
-        username,
         email,
         is_admin,
         sexe,
@@ -35,7 +33,7 @@ const addStaff = async (req, res, next) => {
         if (savedStaff) {
           return (
             res
-              // .status(200)
+              .status(200)
               .send(
                 `Staff ${savedStaff.name_staff} ${savedStaff.firstname_staff} added with success`
               )
@@ -43,7 +41,7 @@ const addStaff = async (req, res, next) => {
         } else {
           return (
             res
-              // .status(400)
+              .status(400)
               .send(`Account creation error`)
           );
         }

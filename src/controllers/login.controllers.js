@@ -26,15 +26,18 @@ const loginFunction = async (password, login, req, res) => {
       } else {
         const jwtToken = jwt.sign(
           { id: staffWithEmail.id, email: staffWithEmail.email },
-          process.env.JWT_SECRET
+          process.env.JWT_SECRET, 
+          // {expiresIn:"1h"}
         );
         res.status(200).json({
           message: "Welcome to LOPANGO INFOS",
           token: jwtToken,
           name: `${staffWithEmail.firstname_staff} ${staffWithEmail.name_staff}`,
           isAdmin: ` ${staffWithEmail.is_admin}`,
+          id : `${staffWithEmail.id}`,
           id_staff: `${staffWithEmail.id_staff}`,
           status: `${staffWithEmail.statut}`,
+          expireTimes :"1",
         });
       }
     });
