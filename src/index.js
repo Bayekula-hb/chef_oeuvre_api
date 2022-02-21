@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: false }));
 require("../src/auth/passport");
 
 app.get("/", async (req, res) => {
-  res.send("Welcome to the app");
+  res.send("Welcome to the Lopango Infos");
 });
 
 app.use("/api_lopango/auth", authRouter);

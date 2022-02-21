@@ -16,6 +16,7 @@
     "husky-install": "husky install"
   },
   "dependencies": {
+    "@sendgrid/mail": "^7.6.1",
     "bcrypt": "^5.0.1",
     "cloudinary": "^1.27.1",
     "cors": "^2.8.5",

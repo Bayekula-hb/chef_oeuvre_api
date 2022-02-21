@@ -31,29 +31,16 @@ const validationMiddlewares = [
     .withMessage("must be at least 3 chars long")
     .trim()
     .escape(),
-  body("username")
-    .isLength({ min: 3 })
-    .withMessage("must be at least 3 chars long")
-    .trim()
-    .escape(),
-  // body("password")
-  //   .notEmpty()
-  //   .withMessage("Cannot be empty")
-  //   .isLength({ min: 6 })
-  //   .withMessage("must be at least 6 chars long")
+  // body("username")
+  //   .isLength({ min: 3 })
+  //   .withMessage("must be at least 3 chars long")
   //   .trim()
   //   .escape(),
-  // body("password1").custom((value, { req }) => {
-  //   if (value !== req.body.password) {
-  //     throw new Error("Password confirmation does not match password");
-  //   }
-  //   return true;
-  // }),
-  body("personnalnumber")
-    .isMobilePhone()
-    .withMessage("Phone number not correct")
-    .trim()
-    .escape(),
+  // body("personnalnumber")
+  //   .isMobilePhone()
+  //   .withMessage("Phone number not correct")
+  //   .trim()
+  //   .escape(),
   body("sexe").notEmpty().withMessage("Cannot be empty").trim().escape(),
   body("status")
     .notEmpty()
@@ -88,6 +75,7 @@ staffRegisterMiddleware.use(validationMiddlewares, (req, res, next) => {
     charset: 'alphabetic'
   });;
 
+  res.password_brut = password_brut;
   res.password = bcrypt.hashSync(password_brut, 10);
   res.email = email;
   res.name_staff = name_staff;

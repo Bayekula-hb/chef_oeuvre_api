@@ -1,65 +1,75 @@
 const { staff, sequelize } = require("../models");
-const { compare } = require("bcrypt");
+const SendMail = require("../utils/nodeMailler");
 
-const addStaff = async (req, res, next) => {
-  try {
+const addStaff = async (req, res) => {
+  if (req.user.is_admin == true) {
     const result = await sequelize.transaction(async (t) => {
-      const {
-        name_staff,
-        firstname_staff,
-        postname_staff,
-        password,
-        email,
-        is_admin,
-        sexe,
-        status,
-      } = res;
-      const alreadyExistsStaff = await staff.findOne({
-        where: { email: res.email },
-      });
-      if (!alreadyExistsStaff) {
-        const savedStaff = await staff.create({
+      try {
+        const {
           name_staff,
           firstname_staff,
           postname_staff,
-          personnalnumber,
           password,
-          username,
           email,
           is_admin,
           sexe,
           status,
+          password_brut,
+        } = res;
+        const alreadyExistsStaff = await staff.findOne({
+          where: { email: req.body.email },
         });
-        if (savedStaff) {
-          return (
-            res
-              .status(200)
-              .send(
-                `Staff ${savedStaff.name_staff} ${savedStaff.firstname_staff} added with success`
-              )
-          );
+        if (!alreadyExistsStaff) {
+          // const savedStaff = await staff.create({
+          //   name_staff,
+          //   firstname_staff,
+          //   postname_staff,
+          //   password,
+          //   email,
+          //   is_admin,
+          //   sexe,
+          //   status,
+          // });
+          const savedStaff = await staff.create(res);
+          if (savedStaff) {
+            const responseSendMail = SendMail(
+              email,
+              password_brut,
+              firstname_staff
+            );
+            if (responseSendMail) {
+              return res
+                // .status(200)
+                .send(
+                  `Le personnel ${savedStaff.name_staff} ${savedStaff.firstname_staff} ajouté avec succès`
+                );
+            }
+          } else {
+            return res
+            // .status(400)
+            .send({
+              erreur: "La requête échouée ",
+              message: `Création du compte échoué, Veuillez réessayer plutard`,
+            });
+          }
         } else {
-          return (
-            res
-              .status(400)
-              .send(`Account creation error`)
-          );
+          return res
+          // .status(200)
+          .json({
+            erreur: "La requête échouée",
+            message: `Le personnel ayant l'adresse mail ${email} existe déja`,
+          });
         }
-      } else {
-        return (
-          res
-            // .status(200)
-            .json({
-              erreur: "Failed request",
-              message: "Staff with email already exists!",
-            })
-        );
+      } catch (error) {
+        return res
+          // .status(400)
+          .json({ erreur: "La requête échouée ", message: `${error} ${t}` });
       }
     });
-  } catch (error) {
-    res
-      // .status(400)
-      .json({ erreur: "Failed request", message: `${error} ${t}` });
+  } else {
+    return res
+      .status(400)
+      .send("Accès refusé. Vous n'êtes pas un administrateur.");
   }
 };
 
