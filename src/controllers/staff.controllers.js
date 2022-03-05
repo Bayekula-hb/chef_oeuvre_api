@@ -149,7 +149,7 @@ const updateStaff = async (req, res) => {
 const getAllStaff = async (req, res) => {
   res.status(200).send(
     await staff.findAll({
-      attributes: { exclude: ["id", "deletedAt", "password"] },
+      attributes: { exclude: ["id", "deletedAt", "password"], order:['id', 'DESC'] },
     })
   );
 };

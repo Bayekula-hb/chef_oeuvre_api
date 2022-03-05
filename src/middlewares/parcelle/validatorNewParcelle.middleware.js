@@ -3,19 +3,19 @@ const { body, check, validationResult } = require("express-validator");
 
 const validatedParcelle = express();
 const validationNewParcelle = [
-  body("nom_parcelle")
+  body("avenueId")
     .notEmpty()
     .withMessage("Cannot be empty")
-    .isLength({ min: 5 })
-    .withMessage("must be at least 5 chars long")
-    .matches(/^[A-Za-z_-]{5,}$/)
+    .isLength({ min: 1 })
+    .withMessage("must be at least 1 chars long")
+    .matches(/^[A-Za-z_-]{1,}$/)
     .withMessage("contain the number"),
-  check("avenueId")
-    .isLength({ min: 2 })
+  check("number_parcel")
+    .isLength({ min: 1 })
     .withMessage("must be at least 2 chars")
-    .matches(/^\d{2,}$/)
+    .matches(/^\d{1,}$/)
     .withMessage("contain the number"),
-    check("proprietaireId")
+    check("ownerId")
       .isLength({ min: 2 })
       .withMessage("must be at least 2 chars")
       .matches(/^\d{2,}$/)

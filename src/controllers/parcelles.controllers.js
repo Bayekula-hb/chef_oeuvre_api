@@ -1,8 +1,9 @@
 const {
-  parcelle,
+  parcel,
   historique_parcelle,
   proprietaire,
   avenue,
+  owner,
   sequelize,
 } = require("../models");
 
@@ -23,22 +24,22 @@ const getOneParcelle = async (req, res) => {
 };
 const getAllParcelle = async (req, res) => {
   res.send(
-    await parcelle.findAll({
-      attributes: ["id_parcelle", "proprietaireId", "avenueId", "numero"],
+    await parcel.findAll({
+      attributes: ["id_parcel", "ownerId", "avenueId", "number_parcel"],
       include: [
         {
           model: avenue,
-          attributes: ["id_avenue", "nom_avenue"],
+          attributes: ["id_avenue", "name_avenue"],
         },
         {
-          model: proprietaire,
+          model: owner,
           attributes: [
-            "id_proprietaire",
-            "nom_proprietaire",
-            "postnom_proprietaire",
-            "prenom_proprietaire",
-            "date_naissance",
-            "nationalite",
+            "id_owner",
+            "name_owner",
+            "postname_owner",
+            "firstname_owner",
+            "dateofbirth",
+            "nationality",
           ],
         },
       ],
@@ -46,16 +47,16 @@ const getAllParcelle = async (req, res) => {
   );
 };
 const addParcelle = async (req, res) => {
-  const { proprietaireId, avenueId, numero } = req.body;
-  const newParcelle = await parcelle.create({
-    proprietaireId,
+  const { ownerId, avenueId, number_parcel } = req.body;
+  const newParcel = await parcel.create({
+    ownerId,
     avenueId,
-    numero,
+    number_parcel,
   });
   res
     .status(200)
     .send(
-      `La Parcelle ayant l'identifiant ${newParcell.id_parcelle} ajoutée avec succès`
+      `La Parcelle ayant l'identifiant ${newParcel.id_parcel} ajoutée avec succès`
     );
 };
 const updateParcelle = async (req, res) => {
