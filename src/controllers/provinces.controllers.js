@@ -2,7 +2,7 @@ const { province, district, sequelize } = require("../models");
 
 const getOneProvince = async (req, res) => {
   const { id_province } = req.query;
-  res.send(
+  res.status(200).send(
     await province.findOne({
       where: {
         id_province,
@@ -19,9 +19,10 @@ const getOneProvince = async (req, res) => {
   );
 };
 const getAllProvince = async (req, res) => {
-  res.send(
+  res.status(200).send(
     await province.findAll({
       attributes: [
+        "id",
         "id_province",
         "name_province",
         "surface_province",

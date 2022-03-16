@@ -4,28 +4,29 @@ const {
   proprietaire,
   avenue,
   owner,
+  certificate_registration,
   sequelize,
 } = require("../models");
 
 const getOneParcelle = async (req, res) => {
   const { id_parcelle } = req.query;
-  res.send(
-    await parcelle.findOne({
+  res.status(200).send(
+    await parcel.findOne({
       where: {
         id_parcelle,
       },
-      attributes: ["id_parcelle", "proprietaireId", "avenueId", "numero"],
+      attributes: ["id_parcel", "ownerId", "avenueId", "number_parcel"],
       include: {
         model: avenue,
-        attributes: ["id_avenue", "nom_avenue"],
+        attributes: ["id_avenue", "name_avenue"],
       },
     })
   );
 };
 const getAllParcelle = async (req, res) => {
-  res.send(
+  res.status(200).send(
     await parcel.findAll({
-      attributes: ["id_parcel", "ownerId", "avenueId", "number_parcel"],
+      attributes: [ "id_parcel", "ownerId", "avenueId", "number_parcel"],
       include: [
         {
           model: avenue,
@@ -42,6 +43,12 @@ const getAllParcelle = async (req, res) => {
             "nationality",
           ],
         },
+        // {
+        //   model: certificate_registration,
+        //   attributes: ["surface", "cadastral_number"],
+        //   where : { parcel.id == certificate_registration.parcelleId},
+        //   right: false,
+        // },
       ],
     })
   );
