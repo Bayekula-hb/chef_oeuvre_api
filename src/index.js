@@ -8,13 +8,15 @@ const proprietaireRouter = require("./routers/proprietaires.router");
 const provinceRouter = require("./routers/provinces.router");
 const quarterRouter = require("./routers/quarters.route");
 const staffRouter = require("./routers/staffs.router");
+const reportingRouter = require("./routers/reporting.router");
+
 const { authRouter } = require("./routers/login.router");
 const passport = require("passport");
 
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000", /.{5,6}\/\/kesho-congo-1-.{8,}/],
+  origin: ["http://localhost:3000", /.{5,6}\/\/lopango-info-.{8,}/],
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionSuccessStatus: 200,
@@ -76,6 +78,11 @@ app.use(
   "/api_lopango/staffs",
   passport.authenticate("jwt", { session: false }),
   staffRouter
+);
+app.use(
+  "/api_lopango/reporting",
+  passport.authenticate("jwt", { session: false }),
+  reportingRouter
 );
 
 module.exports = app;
