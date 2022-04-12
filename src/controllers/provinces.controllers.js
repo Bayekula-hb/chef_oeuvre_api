@@ -8,9 +8,10 @@ const getOneProvince = async (req, res) => {
   res.status(200).send(
     await province.findOne({
       where: {
-        id_province,
+        id:id_province,
       },
       attributes: [
+        "id",
         "id_province",
         "name_province",
         "surface_province",
@@ -21,6 +22,7 @@ const getOneProvince = async (req, res) => {
     })
   );
 };
+
 const getAllProvince = async (req, res) => {
   res.status(200).send(
     await province.findAll({

@@ -4,10 +4,12 @@ const { param, check, validationResult } = require("express-validator");
 const validatedGetOneProvince = express();
 const validationProvince = [
   check("id_province")
-    .isLength({ min: 20 })
+    .isLength({ min: 1 })
     .withMessage("must be at least 20 chars")
-    // .matches(/(\[A-Za-z0-9]{4,}){3,}/)
-    // .withMessage("contain the number"),
+    .matches(/^\d{1,}/)
+    .withMessage("contain the number")
+    .trim()
+    .escape(),
 ];
 
 validatedGetOneProvince.use(validationProvince, async (req, res, next) => {
