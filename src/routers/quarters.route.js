@@ -17,5 +17,6 @@ quarterRouter.get("/All", getAllQuarter);
 quarterRouter.post("/", validatedQuarter, addQuarter);
 quarterRouter.put("/",validatedGetOneQuarter,validatedQuarter,updateQuarter);
 quarterRouter.get("/details",validatedGetOneQuarter,getQuarterAndAvenue)
+quarterRouter.get("/ByProvince",validatedGetOneQuarter,getQuarterAndAvenue)
 
 module.exports = quarterRouter;

@@ -16,7 +16,22 @@ const getOneQuarter = async (req, res) => {
     })
   );
 };
-
+const getQuarterByProvince = async (req, res) => {
+  const { provinceId } = req.query;
+  res.send(
+    await quarter.findOne({
+      where: {
+        provinceId,
+      },
+      attributes: [
+        "id_quarter",
+        "name_quarter",
+        "surface_quarter",
+        "history_quarter",
+      ],
+    })
+  );
+};
 const getAllQuarter = async (req, res) => {
   res.send(await quarter.findAll());
 };
@@ -103,4 +118,5 @@ module.exports = {
   getOneQuarter,
   updateQuarter,
   getQuarterAndAvenue,
+  getQuarterByProvince,
 };

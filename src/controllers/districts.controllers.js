@@ -18,10 +18,28 @@ const getOneDistrict = async (req, res) => {
 };
 
 const getAllDistrict = async (req, res) => {
-  res.send(
+  res.status(200).send(
     await district.findAll({
       attributes: [
-        "id_district",
+        "id",
+        // "id_district",
+        "name_district",
+        "surface_district",
+        "provinceId",
+      ],
+    })
+  );
+};
+
+const getDistrictByProvince = async (req, res) => {
+  const { provinceId } = req.query;
+  res.status(200).send(
+    await district.findAll({
+      where: {
+        provinceId,
+      },
+      attributes: [
+        "id",
         "name_district",
         "surface_district",
         "provinceId",
@@ -34,7 +52,7 @@ const addDistrict = async (req, res) => {
   const { name_district, surface_district, provinceId } = req.body;
   const provinceFind = await province.findOne({
     where: {
-      id_province: provinceId,
+      id: provinceId,
     },
   });
   if (provinceFind) {
@@ -45,9 +63,9 @@ const addDistrict = async (req, res) => {
     });
     res
       .status(200)
-      .send(`Le district de ${newDistrict.name_district} ajouté avec succès`);
+      .send(`Le district de ${newDistrict.name_district} vient d'être ajouter avec succès`);
   } else {
-    res.send({ message: "province not found" });
+    res.send({ message: "La province non trouvée" });
   }
 };
 
@@ -99,4 +117,5 @@ module.exports = {
   getOneDistrict,
   updateDistrict,
   getDistrictAndTownship,
+  getDistrictByProvince,
 };

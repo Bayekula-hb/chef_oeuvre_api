@@ -17,6 +17,8 @@ const getOneProvince = async (req, res) => {
         "surface_province",
         "history_province",
         "chieftown",
+        "longitude",
+        "latitude",
         "image_province",
       ],
     })
@@ -33,6 +35,8 @@ const getAllProvince = async (req, res) => {
         "surface_province",
         "history_province",
         "chieftown",
+        "longitude",
+        "latitude",
         "image_province",
       ],
     })
