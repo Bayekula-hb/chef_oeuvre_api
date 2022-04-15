@@ -1,4 +1,5 @@
 const { township, district, quarter, sequelize } = require("../models");
+const { cloudinary } = require("../utils/cloudinaryConfig");
 
 const getOneTownship = async (req, res) => {
   const { id_township } = req.query;
@@ -41,25 +42,43 @@ const getAllTownship = async (req, res) => {
 };
 
 const addTownship = async (req, res) => {
-  const { name_township, history_township, surface_township, districtId } =
-    req.body;
-  const districtFound = await district.findOne({
-    where: {
-      id_district: districtId,
-    },
-  });
-  if (districtFound) {
-    const newtownship = await township.create({
-      name_township,
-      history_township,
-      surface_township,
-      districtId: districtFound.id,
+  const {
+    name_township,
+    history_township,
+    surface_township,
+    districtId,
+    image_township,
+  } = req.body;
+  try {
+    const districtFound = await district.findOne({
+      where: {
+        id: districtId,
+      },
     });
-    res
-      .status(200)
-      .send(`La township de ${newtownship.name_township} ajoutée avec succès`);
-  } else {
-    res.status(400).send({ message: "Enregirstrement echouer" });
+    if (districtFound) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(
+        image_township,
+        {
+          upload_preset: "chef_d_oeuvre",
+        }
+      );
+      const newtownship = await township.create({
+        name_township,
+        history_township,
+        surface_township,
+        image_township: cloudinaryResponse.public_id,
+        districtId: districtFound.id,
+      });
+      res
+        .status(200)
+        .send(`La commune de ${newtownship.name_township} ajoutée avec succès`);
+    } else {
+      res
+        .status(400)
+        .send({ message: "Enregistrement echoué car ce district n'existe " });
+    }
+  } catch (err) {
+    res.status(500).send({ error: "image upload fails" });
   }
 };
 
@@ -78,7 +97,7 @@ const updateTownship = async (req, res) => {
         name_township,
         history_township,
         surface_township,
-        districtId:districtFound.id,
+        districtId: districtFound.id,
       },
       {
         where: {
