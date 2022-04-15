@@ -8,6 +8,7 @@ const {
   getOneTownship,
   updateTownship,
   getTownshipAndQuarter,
+  getTownshipByProvince,
 } = require("../controllers/townships.controllers");
 const {
   validatedGetOneCommune,
@@ -19,5 +20,6 @@ townshipRouter.get("/All", getAllTownship);
 townshipRouter.post("/", validatedTownship, addTownship);
 townshipRouter.put("/", validatedGetOneCommune, validatedTownship, updateTownship);
 townshipRouter.get("/details", validatedGetOneCommune, getTownshipAndQuarter);
+townshipRouter.get("/TownshipByProvince", getTownshipByProvince)
 
 module.exports = townshipRouter;

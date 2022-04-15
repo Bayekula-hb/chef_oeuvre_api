@@ -1,4 +1,5 @@
 const { township, district, quarter, sequelize } = require("../models");
+const { QueryTypes } = require("sequelize");
 const { cloudinary } = require("../utils/cloudinaryConfig");
 
 const getOneTownship = async (req, res) => {
@@ -142,10 +143,32 @@ const getTownshipAndQuarter = async (req, res) => {
   );
 };
 
+const getTownshipByProvince = async (req, res) => {
+  const t = await sequelize.transaction();
+  try {
+    const { id_province } = req.query;
+    res.status(200).json(
+      await sequelize.query(
+        `
+          SELECT t.id, t.name_township, t.surface_township, t.image_township,
+           t.history_township, d.provinceId
+          from townships t inner join districts d on t.districtId = d.id
+          where d.provinceId = ${id_province}
+      `,
+        { type: QueryTypes.SELECT, transaction: t }
+      )
+    );
+    await t.commit();
+  } catch (error) {
+    res.status(400).json({ error: ` ${error}` });
+  }
+};
+
 module.exports = {
   getAllTownship,
   addTownship,
   getOneTownship,
   updateTownship,
   getTownshipAndQuarter,
+  getTownshipByProvince,
 };

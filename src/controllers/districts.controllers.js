@@ -2,7 +2,7 @@ const { district, province, township, sequelize } = require("../models");
 
 const getOneDistrict = async (req, res) => {
   const { id_district } = req.query;
-  res.send(
+  res.status(200).send(
     await district.findOne({
       where: {
         id_district,
@@ -38,12 +38,7 @@ const getDistrictByProvince = async (req, res) => {
       where: {
         provinceId,
       },
-      attributes: [
-        "id",
-        "name_district",
-        "surface_district",
-        "provinceId",
-      ],
+      attributes: ["id", "name_district", "surface_district", "provinceId"],
     })
   );
 };
@@ -63,7 +58,9 @@ const addDistrict = async (req, res) => {
     });
     res
       .status(200)
-      .send(`Le district de ${newDistrict.name_district} vient d'être ajouter avec succès`);
+      .send(
+        `Le district de ${newDistrict.name_district} vient d'être ajouter avec succès`
+      );
   } else {
     res.send({ message: "La province non trouvée" });
   }
@@ -85,7 +82,9 @@ const updateDistrict = async (req, res) => {
     }
   );
   if (savedDistrict) {
-    res.status(200).json({ message: `${name_district} update successfully completed` });
+    res
+      .status(200)
+      .json({ message: `${name_district} update successfully completed` });
   } else {
     res.send({ message: "update completed fails" });
   }

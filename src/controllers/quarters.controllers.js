@@ -1,4 +1,5 @@
 const { quarter, avenue, township, sequelize } = require("../models");
+const { QueryTypes } = require("sequelize");
 
 const getOneQuarter = async (req, res) => {
   const { id_quarter } = req.query;
@@ -37,26 +38,40 @@ const getAllQuarter = async (req, res) => {
 };
 
 const addQuarter = async (req, res) => {
-  const { name_quarter, history_quarter, surface_quarter, townshipId } =
-    req.body;
-
-  const townshipFound = await township.findOne({
-    where: {
-      id_township: townshipId,
-    },
-  });
-  if (townshipFound) {
-    const newQuarter = await quarter.create({
-      name_quarter,
-      history_quarter,
-      surface_quarter,
-      townshipId: townshipFound.id,
+  const t = await sequelize.transaction();
+  try {
+    const { name_quarter, history_quarter, surface_quarter, townshipId } =
+      req.body;
+    const townshipFound = await township.findOne({
+      where: {
+        id: townshipId,
+      },
     });
-    res
-      .status(200)
-      .send(`Le quartier ${newQuarter.name_quarter} ajouté avec succès`);
-  } else {
-    res.status(400).send({ message: "La commune spécifier n'existe pas" });
+    if (townshipFound) {
+      const savedQuarter = await quarter.create(
+        {
+          name_quarter,
+          history_quarter,
+          surface_quarter,
+          townshipId: townshipFound.id,
+        },
+        {
+          transaction: t,
+        }
+      );
+      if (savedQuarter) {
+        await t.commit();
+        res.status(200).json({ message: "Enregistrement effectué avec succès" });
+      } else {
+        await t.rollback();
+        res.send({ message: "add completed fails" });
+      }
+    } else {
+      await t.rollback();
+      res.status(400).send({ message: "La commune spécifier n'existe pas" });
+    }
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
 };
 
@@ -75,7 +90,7 @@ const updateQuarter = async (req, res) => {
         name_quarter,
         history_quarter,
         surface_quarter,
-        townshipId:townshipFound.id,
+        townshipId: townshipFound.id,
       },
       {
         where: {
