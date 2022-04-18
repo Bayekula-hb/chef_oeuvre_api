@@ -17,22 +17,27 @@ const getOneQuarter = async (req, res) => {
     })
   );
 };
+
 const getQuarterByProvince = async (req, res) => {
-  const { provinceId } = req.query;
-  res.send(
-    await quarter.findOne({
-      where: {
-        provinceId,
-      },
-      attributes: [
-        "id_quarter",
-        "name_quarter",
-        "surface_quarter",
-        "history_quarter",
-      ],
-    })
-  );
+  const t = await sequelize.transaction();
+  try {
+    const { provinceId } = req.query;
+    res.status(200).json(
+      await sequelize.query(
+        `
+          SELECT q.id, q.name_quarter, q.surface_quarter, q.history_quarter, q.townshipId, t.name_township, d.provinceId 
+          from quarters q inner join townships t on q.townshipId = t.id inner join districts d on t.districtId = d.id
+          where d.provinceId = ${provinceId}
+      `,
+        { type: QueryTypes.SELECT, transaction: t }
+      )
+    );
+    await t.commit();
+  } catch (error) {
+    res.status(400).json({ error: ` ${error}` });
+  }
 };
+
 const getAllQuarter = async (req, res) => {
   res.send(await quarter.findAll());
 };
@@ -60,14 +65,14 @@ const addQuarter = async (req, res) => {
         }
       );
       if (savedQuarter) {
-        await t.commit();
+        await q.commit();
         res.status(200).json({ message: "Enregistrement effectué avec succès" });
       } else {
-        await t.rollback();
+        await q.rollback();
         res.send({ message: "add completed fails" });
       }
     } else {
-      await t.rollback();
+      await q.rollback();
       res.status(400).send({ message: "La commune spécifier n'existe pas" });
     }
   } catch (error) {

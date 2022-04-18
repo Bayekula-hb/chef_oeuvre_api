@@ -4,10 +4,12 @@ const { param, check, validationResult } = require("express-validator");
 const validatedGetOneQuarter = express();
 const validationQuarter = [
   check("id_quarter")
-    .isLength({ min: 20 })
-    .withMessage("must be at least 20 chars")
-    // .matches(/(\[A-Za-z0-9]{4,}){3,}/)
-    // .withMessage("contain the number"),
+  .isLength({ min: 1 })
+  .withMessage("must be at least 1 chars")
+  .matches(/^\d{1,}/)
+  .withMessage("contain the number")
+  .trim()
+  .escape(),
 ];
 
 validatedGetOneQuarter.use(validationQuarter, async (req, res, next) => {
