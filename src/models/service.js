@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   service.init({
-    id_service: DataTypes.STRING,
+    id_service: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     name_service: DataTypes.STRING,
     cost_service: DataTypes.FLOAT,
   }, {

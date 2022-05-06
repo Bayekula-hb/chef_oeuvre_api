@@ -6,14 +6,19 @@ const getOneQuarter = async (req, res) => {
   res.send(
     await quarter.findOne({
       where: {
-        id_quarter,
+        id:id_quarter,
       },
       attributes: [
+        "id",
         "id_quarter",
         "name_quarter",
         "surface_quarter",
         "history_quarter",
       ],
+      include:{
+        model:township,
+        attributes:["id","name_township"],
+      }
     })
   );
 };
