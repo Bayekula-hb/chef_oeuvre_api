@@ -28,6 +28,7 @@ const getAllTownship = async (req, res) => {
   res.send(
     await township.findAll({
       attributes: [
+        "id",
         "id_township",
         "name_township",
         "surface_township",

@@ -86,12 +86,12 @@ const addQuarter = async (req, res) => {
 };
 
 const updateQuarter = async (req, res) => {
-  const { id_quarter } = req.query;
-  const { name_quarter, history_quarter, surface_quarter, townshipId } =
+  // const { id_quarter } = req.query;
+  const { name_quarter, history_quarter, surface_quarter, townshipId, id_quarter } =
     req.body;
-  const townshipFound = await quarter.findOne({
+  const townshipFound = await township.findOne({
     where: {
-      id_township: townshipId,
+      id: townshipId,
     },
   });
   if (townshipFound) {
@@ -104,12 +104,12 @@ const updateQuarter = async (req, res) => {
       },
       {
         where: {
-          id_quarter,
+          id:id_quarter,
         },
       }
     );
     if (savedQuarter) {
-      res.status(200).json({ message: "update successfully completed" });
+      res.status(200).json({ message: "Mise à jour du quartier effectuée avec succès" });
     } else {
       res.send({ message: "update completed fails" });
     }

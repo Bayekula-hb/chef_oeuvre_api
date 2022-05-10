@@ -5,9 +5,9 @@ const validatedGetOneQuarter = express();
 const validationQuarter = [
   check("id_quarter")
   .isLength({ min: 1 })
-  .withMessage("must be at least 1 chars")
+  .withMessage("L'identifiant du quartier doit être renseigné")
   .matches(/^\d{1,}/)
-  .withMessage("contain the number")
+  .withMessage("L'identifiant du quartier doit être un nombre")
   .trim()
   .escape(),
 ];
