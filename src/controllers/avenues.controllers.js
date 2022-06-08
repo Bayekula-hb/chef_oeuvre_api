@@ -21,7 +21,13 @@ const getOneAvenue = async (req, res) => {
 };
 
 const getAllAvenue = async (req, res) => {
-  res.send(await avenue.findAll());
+  const allAvenue = await sequelize.query(
+    "SELECT Av.id, Av.id_avenue, Av.name_avenue, Q.name_quarter, T.name_township,P.name_province FROM `avenues` Av INNER JOIN `quarters` Q ON Q.id = Av.quarterId INNER JOIN `townships` T ON T.id = Q.townshipId INNER JOIN `districts` D ON D.id = T.districtId INNER JOIN `provinces` P ON P.id = D.provinceId",
+    {
+      type: QueryTypes.SELECT,
+    }
+  );
+  res.status(200).send(allAvenue);
 };
 
 const addAvenue = async (req, res) => {

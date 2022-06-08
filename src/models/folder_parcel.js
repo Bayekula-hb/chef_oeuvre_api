@@ -11,14 +11,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.folder_parcel.hasOne(models.parcel, {
+      /*models.folder_parcel.belongsTo(models.parcel, {
         foreignKey: {
           allowNull: false,
           name: "parcelId",
         },
         onDelete: "CASCADE",
         onUpdate: "CASCADE",
-      });
+      });*/
     }
   };
   folder_parcel.init({

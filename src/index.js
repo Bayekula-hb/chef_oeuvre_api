@@ -60,7 +60,7 @@ app.use(
   quarterRouter
 );
 app.use(
-  "/api_lopango/avenues",
+"/api_lopango/avenues",
   passport.authenticate("jwt", { session: false }),
   avenueRouter
 );

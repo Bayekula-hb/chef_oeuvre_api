@@ -1,12 +1,15 @@
 const {
   parcel,
-  historique_parcelle,
+  historic_parcel,
   proprietaire,
   avenue,
   owner,
+  historic_owner,
   certificate_registration,
+  folder_parcel,
   sequelize,
 } = require("../models");
+const { cloudinary } = require("../utils/cloudinaryConfig");
 
 const getOneParcelle = async (req, res) => {
   const { id_parcelle } = req.query;
@@ -26,7 +29,7 @@ const getOneParcelle = async (req, res) => {
 const getAllParcelle = async (req, res) => {
   res.status(200).send(
     await parcel.findAll({
-      attributes: [ "id_parcel", "ownerId", "avenueId", "number_parcel"],
+      attributes: ["id_parcel", "ownerId", "avenueId", "number_parcel"],
       include: [
         {
           model: avenue,
@@ -54,18 +57,142 @@ const getAllParcelle = async (req, res) => {
   );
 };
 const addParcelle = async (req, res) => {
-  const { ownerId, avenueId, number_parcel } = req.body;
-  const newParcel = await parcel.create({
-    ownerId,
+  const t = await sequelize.transaction();
+
+  const {
+    name_owner,
+    postname_owner,
+    firstname_owner,
+    dateOfBirth,
+    nationality,
     avenueId,
     number_parcel,
-  });
-  res
-    .status(200)
-    .send(
-      `La Parcelle ayant l'identifiant ${newParcel.id_parcel} ajoutée avec succès`
+    cadastral_number,
+    latitude,
+    longitude,
+    altitude,
+    name_conservative,
+    volume,
+    folio,
+    situation,
+    description,
+    surface,
+    sketch,
+    dead_of_sale,
+    lodgers_book,
+    pv_measurement_demarcation,
+    dead_of_assignement,
+  } = req.body;
+  const staffId = req.user.id;
+  try {
+    const OwnerCreate = await owner.create(
+      {
+        name_owner,
+        postname_owner,
+        firstname_owner,
+        dateofbirth: dateOfBirth,
+        nationality,
+        staffId,
+      },
+      { transaction: t }
     );
+    await historic_owner.create(
+      {
+        id_owner: OwnerCreate.dataValues.id,
+        name_owner,
+        postname_owner,
+        firstname_owner,
+        dateofbirth: dateOfBirth,
+        nationality,
+        staffId,
+        version: "1",
+        action: "create",
+      },
+      { transaction: t }
+    );
+    const ParcelCreate = await parcel.create(
+      {
+        ownerId: OwnerCreate.dataValues.id,
+        avenueId: avenueId,
+        number_parcel: number_parcel,
+        version: 1,
+        action: "create",
+      },
+      { transaction: t }
+    );
+    
+    const deedOfSaleResponse = await cloudinary.uploader.upload(dead_of_sale, {
+      upload_preset: "chef_d_oeuvre",
+    });
+    const lodgersBookResponse = await cloudinary.uploader.upload(lodgers_book, {
+      upload_preset: "chef_d_oeuvre",
+    });
+    const pvMeasurementResponse = await cloudinary.uploader.upload(
+      pv_measurement_demarcation,
+      {
+        upload_preset: "chef_d_oeuvre",
+      }
+    );
+    const deedOfAssignementResponse = await cloudinary.uploader.upload(
+      dead_of_assignement,
+      {
+        upload_preset: "chef_d_oeuvre",
+      }
+    );
+    await folder_parcel.create({
+      deed_of_sale: deedOfSaleResponse.public_id,
+      lodgers_book: lodgersBookResponse.public_id,
+      pv_measurement_demarcation: pvMeasurementResponse.public_id,
+      deed_of_assignement: deedOfAssignementResponse.public_id,
+      parcelId: ParcelCreate.dataValues.id,
+    });
+    await historic_parcel.create(
+      {
+        id_parcel: ParcelCreate.dataValues.id,
+        ownerId: OwnerCreate.dataValues.id,
+        avenueId,
+        number_parcel,
+        version: 1,
+        action: "create",
+      },
+      { transaction: t }
+    );
+    const cloudinaryResponse = await cloudinary.uploader.upload(sketch, {
+      upload_preset: "chef_d_oeuvre",
+    });
+    const CertificateCreate = await certificate_registration.create(
+      {
+        cadastral_number,
+        latitude,
+        longitude,
+        altitude,
+        name_conservative,
+        volume,
+        folio,
+        situation,
+        description,
+        surface,
+        sketch: cloudinaryResponse.public_id,
+        parcelId: ParcelCreate.dataValues.id,
+      },
+      { transaction: t }
+    ); 
+    res
+      .status(200)
+      .send(
+        `La Parcelle ayant l'identifiant ${newParcel.id_parcel} ajoutée avec succès`
+      );
+    await t.commit();
+   
+  } catch (error) {
+    res
+      .status(200)
+      .send(`Impossible d'enregistré une erreur s'est produite  ${error}`);
+    //res.json(error);
+    await t.rollback();
+  }
 };
+
 const updateParcelle = async (req, res) => {
   const { id_parcelle } = req.query;
   const { proprietaireId, avenueId, numero } = req.body;
@@ -152,7 +279,7 @@ const getArchiveParcelle = async (req, res) => {
     include: {
       model: proprietaire,
       where: {
-        id:proprietaireId,
+        id: proprietaireId,
       },
     },
   });

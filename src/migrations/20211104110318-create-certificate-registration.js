@@ -47,10 +47,10 @@ module.exports = {
       },
       parcelId: {
         type: Sequelize.INTEGER,
-        references: {
+        /*references: {
           model: "parcels",
           key: "id",
-        },
+        },*/
       },
       createdAt: {
         allowNull: false,

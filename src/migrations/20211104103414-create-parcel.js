@@ -9,7 +9,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       id_parcel: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
       },
       ownerId: {
         type: Sequelize.INTEGER,
@@ -26,6 +27,12 @@ module.exports = {
         },
       },
       number_parcel: {
+        type: Sequelize.STRING
+      },
+      version: {
+        type: Sequelize.INTEGER
+      },
+      action: {
         type: Sequelize.STRING
       },
       createdAt: {

@@ -70,14 +70,14 @@ const addQuarter = async (req, res) => {
         }
       );
       if (savedQuarter) {
-        await q.commit();
+        await t.commit();
         res.status(200).json({ message: "Enregistrement effectué avec succès" });
       } else {
-        await q.rollback();
+        await t.rollback();
         res.send({ message: "add completed fails" });
       }
     } else {
-      await q.rollback();
+      await t.rollback();
       res.status(400).send({ message: "La commune spécifier n'existe pas" });
     }
   } catch (error) {
