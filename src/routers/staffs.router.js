@@ -7,12 +7,13 @@ const {
 } = require("../controllers/staff.controllers");
 const staffRegisterMiddleware = require("../middlewares/staff/staff.register.validation.middleware");
 const getStaffMiddleware = require("../middlewares/staff/staff.get.middleware");
+const staffUpdateMiddleware = require("../middlewares/staff/staff.update.validation.middleware");
 
 const staffRouter = express.Router();
 
 staffRouter.get("/", getStaffMiddleware, getOneStaff);
 staffRouter.get("/All", getAllStaff);
 staffRouter.post("/", staffRegisterMiddleware, addStaff);
-staffRouter.put("/", getStaffMiddleware, staffRegisterMiddleware, updateStaff);
+staffRouter.put("/", getStaffMiddleware, staffUpdateMiddleware, updateStaff);
 
 module.exports = staffRouter;

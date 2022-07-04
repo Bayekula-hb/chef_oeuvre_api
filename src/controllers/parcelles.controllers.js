@@ -180,7 +180,7 @@ const addParcelle = async (req, res) => {
     res
       .status(200)
       .send(
-        `La Parcelle ayant l'identifiant ${newParcel.id_parcel} ajoutée avec succès`
+        `La Parcelle ayant l'identifiant ${ParcelCreate.id_parcel} ajoutée avec succès`
       );
     await t.commit();
    
@@ -188,7 +188,6 @@ const addParcelle = async (req, res) => {
     res
       .status(200)
       .send(`Impossible d'enregistré une erreur s'est produite  ${error}`);
-    //res.json(error);
     await t.rollback();
   }
 };

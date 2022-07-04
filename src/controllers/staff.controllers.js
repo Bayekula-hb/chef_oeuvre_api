@@ -74,9 +74,9 @@ const addStaff = async (req, res) => {
 };
 
 const updateStaff = async (req, res) => {
-  // if (req.user.id_user !== res.id_user) {
-  //   return res.status(400).send("Access denied. Can't update another user.");
-  // }
+  if (req.user.id_user !== res.id_user) {
+    return res.status(400).send("Access denied. Can't update another user.");
+  }
   // const verifyPassword = await compare(res.old_password, req.user.password);
   // if (!verifyPassword) {
   //   return res.status(400).send("password not correct");
@@ -104,8 +104,8 @@ const updateStaff = async (req, res) => {
             name_staff,
             firstname_staff,
             postname_staff,
-            personnalnumber,
-            password,
+            // personnalnumber,
+            // password,
             username,
             email,
             is_admin,

@@ -1,5 +1,4 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
 const { param, validationResult } = require("express-validator");
 
 const getStaffMiddleware = express();
