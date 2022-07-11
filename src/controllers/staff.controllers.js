@@ -38,32 +38,40 @@ const addStaff = async (req, res) => {
               firstname_staff
             );
             if (responseSendMail) {
-              return res
-                // .status(200)
-                .send(
-                  `Le personnel ${savedStaff.name_staff} ${savedStaff.firstname_staff} ajouté avec succès`
-                );
+              return (
+                res
+                  // .status(200)
+                  .send(
+                    `Le personnel ${savedStaff.name_staff} ${savedStaff.firstname_staff} ajouté avec succès`
+                  )
+              );
             }
           } else {
-            return res
-            // .status(400)
-            .send({
-              erreur: "La requête échouée ",
-              message: `Création du compte échoué, Veuillez réessayer plutard`,
-            });
+            return (
+              res
+                // .status(400)
+                .send({
+                  erreur: "La requête échouée ",
+                  message: `Création du compte échoué, Veuillez réessayer plutard`,
+                })
+            );
           }
         } else {
-          return res
-          // .status(200)
-          .json({
-            erreur: "La requête échouée",
-            message: `Le personnel ayant l'adresse mail ${email} existe déja`,
-          });
+          return (
+            res
+              // .status(200)
+              .json({
+                erreur: "La requête échouée",
+                message: `Le personnel ayant l'adresse mail ${email} existe déja`,
+              })
+          );
         }
       } catch (error) {
-        return res
-          // .status(400)
-          .json({ erreur: "La requête échouée ", message: `${error} ${t}` });
+        return (
+          res
+            // .status(400)
+            .json({ erreur: "La requête échouée ", message: `${error} ${t}` })
+        );
       }
     });
   } else {
@@ -149,7 +157,10 @@ const updateStaff = async (req, res) => {
 const getAllStaff = async (req, res) => {
   res.status(200).send(
     await staff.findAll({
-      attributes: { exclude: ["id", "deletedAt", "password"], order:['id', 'DESC'] },
+      attributes: {
+        exclude: ["id", "deletedAt", "password"],
+        order: ["id", "DESC"],
+      },
     })
   );
 };
@@ -169,4 +180,31 @@ const getOneStaff = async (req, res) => {
   }
 };
 
-module.exports = { addStaff, updateStaff, getAllStaff, getOneStaff };
+const deleteStaff = async (req, res) => {
+  if (req.user.is_admin !== true){
+    return res.status(400).send("Accès refusé. Vous n'êtes pas un administrateur.");
+  }
+  const { id_staff } = res;
+  const staffDelete = await staff.destroy({
+    where: {
+      id_staff,
+    },
+  });
+  if (staffDelete) {
+    return res.status(200).json({
+      message: `Le personnel supprimé avec succès`,
+    });
+  }else{
+    return res.status(500).json({
+      message: `Opération de suppression échouée. Veuillez réessayer plus tard`,
+    });
+  }
+};
+
+module.exports = {
+  addStaff,
+  updateStaff,
+  getAllStaff,
+  getOneStaff,
+  deleteStaff,
+};
