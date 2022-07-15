@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   avenue.init({
-    id_avenue: DataTypes.STRING,
+    id_avenue: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     name_avenue: DataTypes.STRING,
     quarterId: DataTypes.INTEGER
   }, {

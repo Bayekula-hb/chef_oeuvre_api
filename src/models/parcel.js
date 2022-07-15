@@ -27,8 +27,8 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         onUpdate: "CASCADE"
       });
-      models.parcel.belongsTo(models.certificate_registration)
-      models.parcel.belongsTo(models.folder_parcel)
+      // models.parcel.hasMany(models.certificate_registration)
+      // models.parcel.hasMany(models.folder_parcel)
     }
   };
   parcel.init({
@@ -43,6 +43,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
+    action: DataTypes.STRING
   }, {
     sequelize,
     paranoid: true,

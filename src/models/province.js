@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     image_province: DataTypes.STRING,
     history_province: DataTypes.TEXT,
     surface_province: DataTypes.FLOAT,
-    chieftown: DataTypes.STRING
+    chieftown: DataTypes.STRING,
+    longitude: DataTypes.STRING,
+    latitude: DataTypes.STRING,
   }, {
     sequelize,
     paranoid: true,

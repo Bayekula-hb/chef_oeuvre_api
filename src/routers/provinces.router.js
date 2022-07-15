@@ -1,4 +1,7 @@
 const express = require("express");
+const multer  = require('multer')
+const upload = multer();
+
 const { validatedProvince } = require("../middlewares/province/validatorNewProvince.middleware");
 const {
   getAllProvince,

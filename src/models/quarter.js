@@ -23,7 +23,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   quarter.init({
-    id_quarter: DataTypes.STRING,
+    id_quarter: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+    },
     name_quarter: DataTypes.STRING,
     history_quarter: DataTypes.STRING,
     surface_quarter: DataTypes.FLOAT,
