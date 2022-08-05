@@ -29,5 +29,45 @@ const certificateCountByMounth = async (req, res) => {
       .send("Accès refusé. Vous n'êtes pas un administrateur.");
   }
 };
+const month_year = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+const reportingAnnual= async (req, res) => {
+  try {
+    const result = await sequelize.transaction(async (t) => {
+      const month_current = new Date().getMonth();
+      const reporting_in_year = [];
+      for (let i = 0; i <= month_current; i++) {
+        reporting_in_year.push(
+          ... await sequelize.query(
+            'SELECT COUNT(id_certificate) as number  FROM certificate_registrations WHERE monthname(createdAt) = :monthParam',
+            {
+              replacements: {
+                monthParam: month_year[i],
+                plain: true,
+              },
+              nest: true,
+              type: QueryTypes.SELECT,
+            }
+          )
+        );
+      }
+      res.status(200).json(reporting_in_year);
+    });
+  } catch (err) {
+    res.status(500).json({ error: `${err}` });
+  }
+};
 
-module.exports = { certificateCountByMounth };
+module.exports = { certificateCountByMounth, reportingAnnual };
