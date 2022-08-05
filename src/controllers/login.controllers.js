@@ -37,7 +37,6 @@ const loginFunction = async (password, login, req, res) => {
           id : `${staffWithEmail.id}`,
           id_staff: `${staffWithEmail.id_staff}`,
           status: `${staffWithEmail.statut}`,
-          expireTimes :"1",
         });
       }
     });
