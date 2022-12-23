@@ -16,7 +16,7 @@ const passport = require("passport");
 const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:3000", /.{5,6}\/\/lopango-info-.{8,}/],
+  origin: ["http://localhost:3000", /.{5,6}\/\/lopango-info-.{8,}/,/.{5,6}\/\/dashboard-chef-oeuvre.{8,}/],
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionSuccessStatus: 200,
